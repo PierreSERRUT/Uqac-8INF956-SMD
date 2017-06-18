@@ -4,12 +4,14 @@ public class HandleDB {
 
 	private DataBase db;
 	
+	// passer en static
+	
 	public HandleDB(){
 		
 	}
 	
 	public void initDB(){
-		// Aller chercher le fichier de DB pour la construire
+		// Aller chercher le fichier de DB pour la construire ?
 	}
 	
 	public boolean connexion(User user){

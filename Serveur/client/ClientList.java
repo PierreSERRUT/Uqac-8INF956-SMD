@@ -8,6 +8,8 @@ import java.util.Set;
 
 public class ClientList {
 	
+	// passer en static
+	
 	private LinkedHashMap<Client, Date> listClientCo;
 	private LinkedHashMap<Client, Date> listClientDispo; // ArrayList de tuple (pour le temps)
 	private int nbClientCoMax;
@@ -24,10 +26,9 @@ public class ClientList {
 		this.nbClientCoMax = MaxClient;
 	}
 	
-	
 	public void addConnect(Client client){
-		this.listClientDispo.remove(client);
-		this.listClientCo.remove(client);
+		decoClient(client);
+		
 		this.listClientCo.put(client, new Date());
 		
 		updateCoDispo();
@@ -67,8 +68,9 @@ public class ClientList {
 		}	
 	}
 	
-	public void decoClient(){
-		
+	public void decoClient(Client client){
+		this.listClientDispo.remove(client);
+		this.listClientCo.remove(client);
 	}
 	
 }
