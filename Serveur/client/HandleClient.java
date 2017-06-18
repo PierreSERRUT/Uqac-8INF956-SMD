@@ -144,7 +144,7 @@ public class HandleClient implements Runnable {
 		 */
 		String pseudo, mail, mdp;
 		try{
-			String[] str = din.readUTF().split("|§|");
+			String[] str = din.readUTF().split("§§§");
 			pseudo = str[0];
 			mail = str[1];
 			mdp = str[2];
@@ -156,6 +156,7 @@ public class HandleClient implements Runnable {
 			ClientList.addConnect(client); //appel static ?
 			
 			//renvoi de son userid à l'utilisateur*/
+			System.out.println(mail+"\n"+pseudo+"\n"+mdp);
 			int userid = 100;
 			dout.writeInt(userid);
 		} catch (IOException e){

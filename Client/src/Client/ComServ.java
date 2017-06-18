@@ -21,52 +21,10 @@ public class ComServ {
     private DataInputStream din;
     private DataOutputStream dout;
     private BufferedReader serverInput;
-    private int userid;
 	
 	public ComServ(){
 		this.sendMessage();
 	}
-	
-	private void connectToServer(String commande){
-		try {
-	        //Create a socket to the server
-	        socket = new Socket(address, port);
-	        //Create an output stream to send an object to the server
-	        clientOutput = socket.getOutputStream();
-	        clientInput = socket.getInputStream(); // Mauvais nom ?
-	        clientObject = new ObjectOutputStream(clientOutput);
-	        dout = new DataOutputStream(clientOutput);
-	        din = new DataInputStream(clientInput);
-
-	        //Create an input stream to receive messages from the server - USELESS ?
-	        serverInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-	        //Send a command to the server
-	        dout.writeUTF(commande);
-		}
-		catch (UnknownHostException e) {
-			System.out.println("Error : error with the hostname address. Please check the IP.");
-			System.exit(-2);
-			//If something happen during the execution, display an error message
-		} catch (Exception e) {
-			System.out.println("Error : cannot connect to server.");
-			System.exit(-2);
-		}
-	}
-		
-	private void disconnect(){
-		try {
-			serverInput.close();
-            clientInput.close();
-            clientObject.close();
-            clientOutput.close();
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-	}
-	
-	
 	private void sendMessage(){
 		try {
 	        //Create a socket to the server
@@ -82,10 +40,11 @@ public class ComServ {
 	        serverInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
 	        //Send a command to the server
-	        dout.writeUTF("coucou");
-
+	        dout.writeUTF("inscription");
+	        dout.writeUTF("yolouser§§§yolo@user.com§§§coucou");
 	        //Read the server response
-	        String rep = din.readUTF();
+	        //String rep = din.readUTF();
+	        int rep = din.readInt();
 	        System.out.println(rep);
 
 	        //If the host is unreachable, display an error message
