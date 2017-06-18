@@ -1,47 +1,56 @@
 package client;
 
-import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class ClientList {
 	
-	private ArrayList<Client> listClientCo;
-	private ArrayList<Client> listClientDispo; // ArrayList de tuple (pour le temps)
+	private LinkedHashMap<Client, Date> listClientCo;
+	private LinkedHashMap<Client, Date> listClientDispo; // ArrayList de tuple (pour le temps)
 	private int nbClientCoMax;
 	
 	public ClientList(){
-		this.listClientCo = new ArrayList<Client>();
-		this.listClientDispo = new ArrayList<Client>();
+		this.listClientCo = new LinkedHashMap<Client, Date>();
+		this.listClientDispo = new LinkedHashMap<Client, Date>();
 		this.nbClientCoMax = 5;
 	}
 	
 	public ClientList(int MaxClient){
-		this.listClientCo = new ArrayList<Client>();
-		this.listClientDispo = new ArrayList<Client>();
+		this.listClientCo = new LinkedHashMap<Client, Date>();
+		this.listClientDispo = new LinkedHashMap<Client, Date>();
 		this.nbClientCoMax = MaxClient;
 	}
 	
 	
 	public void addConnect(Client client){
 		this.listClientDispo.remove(client);
-		if(this.listClientDispo.contains(client)){
-			this.listClientDispo.remove(client);
-		}
-		this.listClientDispo.add(client);
+		this.listClientCo.remove(client);
+		this.listClientCo.put(client, new Date());
+		
+		updateCoDispo();
+		updateLongDispo();
 	}
 	
-	// Permet de passer des client de Co ï¿½ Dispo
+	// Permet de passer des client de Co à Dispo
 	private void updateCoDispo(){
 		if(this.listClientCo.size() > this.nbClientCoMax){
-			int nbTransition = this.listClientCo.size() - this.nbClientCoMax;
+			int nbTransition = this.listClientCo.size() - this.nbClientCoMax;			
+			
+			Set<Entry<Client, Date>> setClientCo = this.listClientCo.entrySet();
+			Iterator<Entry<Client, Date>> iteratorClientCo = setClientCo.iterator();
+			
 			for (int i = 0; i < nbTransition; i++) {
-				this.listClientDispo.add(this.listClientCo.get(i));
-				this.listClientCo.remove(i);
+				Entry<Client, Date> pairClientDate = iteratorClientCo.next();
+				this.listClientDispo.put(pairClientDate.getKey(), pairClientDate.getValue());
+				this.listClientCo.remove(pairClientDate.getKey());
 			}
-		}
-		// clean la listDispo
+		}		
 	}
 	
-	// Permet de "clean" la liste dispo si les clients n'ont pas pingï¿½ depuis 30 min
+	// Permet de "clean" la liste dispo si les clients n'ont pas pingé depuis 30 min
 	private void updateLongDispo(){
 		Set<Entry<Client, Date>> setClientDispo = this.listClientDispo.entrySet();
 		Iterator<Entry<Client, Date>> iteratorClientDispo = setClientDispo.iterator();
