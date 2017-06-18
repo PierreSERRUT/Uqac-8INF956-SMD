@@ -51,6 +51,8 @@ public class ComServ {
 		} catch (Exception e) {
 			System.out.println("Error : cannot connect to server.");
 			System.exit(-2);
+		}
+	}
 		
 	private void disconnect(){
 		try {
