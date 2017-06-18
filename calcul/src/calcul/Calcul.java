@@ -49,16 +49,16 @@ public class Calcul {
 		this.idCalc = 0;
 		this.idClient = 0;
 		this.nbParties = 4;
-
+		this.achievement = 0;
+		
 		this.listUnderCal = new ArrayList<UnderCalcServ>(this.nbParties);
-
 
 		this.listVal = new ArrayList<Double>(1);
 		this.listOpe = new ArrayList<Character>(1);
 		this.listUndRes = new ArrayList <Double>(this.nbParties);
 		//this.listVal = new double[10];
 		//this.listOpe = new char[10];
-		this.achievement = 0;
+		
 		this.SetData(str);
 		this.matVal = new double [this.nbParties][this.listVal.size()/this.nbParties+1];
 		this.matOpe = new char[this.nbParties+1][this.listVal.size()/this.nbParties+1];
@@ -74,7 +74,7 @@ public class Calcul {
 
 	public void SetData(String str) {
 
-		int j = 0, indiceVal = 0, indiceOpe = 0;
+		int j = 0, indiceOpe = 0;
 		String tmp;
 
 		for (int i = 0; i < str.length(); i++) {
@@ -83,16 +83,13 @@ public class Calcul {
 				if (str.charAt(i) == '$') {
 					tmp = str.substring(i - j, i);
 					this.listVal.add(Double.parseDouble(tmp));
-					//SetListVal(indiceVal, Double.parseDouble(tmp));
 				}
 			} else {
 				tmp = str.substring(i - j, i);
 				this.listVal.add(Double.parseDouble(tmp));
-				//SetListVal(indiceVal, Double.parseDouble(tmp));
 				j = 0;
 				if (str.charAt(i) != '$') {
 					SetListOpe(indiceOpe, str.charAt(i));
-					indiceVal++;
 					indiceOpe++;
 				}
 			}
@@ -104,8 +101,8 @@ public class Calcul {
 		int restePartVal = this.listVal.size() % this.nbParties;
 		//System.out.println("taille : " + taillePartVal);
 		//System.out.println("reste : " + restePartVal);
-		int taillePartOpe = this.listOpe.size() / this.nbParties;
-		int restePartOpe = this.listOpe.size() % this.nbParties;
+		//int taillePartOpe = this.listOpe.size() / this.nbParties;
+		//int restePartOpe = this.listOpe.size() % this.nbParties;
 
 		int indiceListVal = 0; 
 		int indiceListOpe = 0;
