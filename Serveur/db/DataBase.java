@@ -14,15 +14,35 @@ public class DataBase {
 		this.saveTable = new ArrayList<SavePendingCalcul>();
 	}
 	
-	
-	public void addUser(User newUser){
-		if(!isUserExist(newUser)){
-			this.userTable.add(newUser);
+	public User getUserById(int userId){
+		for (User user : userTable) {
+			if(user.id == userId){
+				return user;
+			}
 		}
+		return null;
+	}
+	
+	public User addUser(User newUser){
+		if(!isUserExist(newUser)){
+			newUser.id = userTable.size();
+			this.userTable.add(newUser);
+			return newUser;
+		}
+		return null;
 	}
 	
 	public Boolean isUserExist(User user){
 		return this.userTable.contains(user);
+	}
+	
+	public Boolean isUserExist(String pseudo, String mail){
+		for (User user : userTable) {
+			if(user.pseudo == pseudo || user.mail == mail){
+				return true;
+			}
+		}		
+		return false;
 	}
 	
 	public Boolean deleteUser(User user){
@@ -45,9 +65,10 @@ public class DataBase {
 	
 	public void addSave(SavePendingCalcul save){
 		this.saveTable.add(save);
+		cleanSave();
 	}
 	
-	public void cleanSave(){
+	private void cleanSave(){
 		if(this.saveTable.size() > 5){
 			for (int i = 0; i < (this.saveTable.size() - 5); i++) {
 				this.saveTable.remove(i);
