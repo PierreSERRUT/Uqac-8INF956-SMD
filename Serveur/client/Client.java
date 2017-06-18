@@ -1,4 +1,5 @@
-package Serveur.client;
+package client;
+
 
 public class Client {
 
