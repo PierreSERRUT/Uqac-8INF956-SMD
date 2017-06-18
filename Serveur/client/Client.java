@@ -1,6 +1,7 @@
-package Serveur.client;
+package client;
 
 public class Client {
 
 	public HandleClient handleClient;
+	public int userid;
 }
