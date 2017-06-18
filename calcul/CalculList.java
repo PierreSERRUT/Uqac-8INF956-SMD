@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 public class CalculList {
 	
-	private ArrayList<Calcul> listCalc;
+	private ArrayList<Calcul> listCurrentCalc;
 
 
 public CalculList() {
-	listCalc = new ArrayList<Calcul>();
+	listCurrentCalc = new ArrayList<Calcul>();
 	}
 }
