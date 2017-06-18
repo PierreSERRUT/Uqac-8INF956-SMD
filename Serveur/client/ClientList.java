@@ -1,4 +1,4 @@
-package client;
+package Serveur.client;
 
 import java.util.ArrayList;
 

@@ -1,11 +1,20 @@
-package client;
+package Serveur.client;
 
-public class HandleClient {
+import java.net.Socket;
 
-	public HandleClient(){
-		
+public class HandleClient implements Runnable {
+
+    private Socket clientSocket;	
+	
+	public HandleClient(Socket clientSock){
+		this.clientSocket = clientSock;
 	}
 	
+	 @Override
+	    public void run() {
+		 System.out.println("New client");
+		 
+	 }
 	
 	public void connexion(){
 		
