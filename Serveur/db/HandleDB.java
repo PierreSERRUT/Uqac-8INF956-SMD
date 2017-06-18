@@ -27,7 +27,9 @@ public class HandleDB {
 		User tmp = new User();
 		if(!db.isUserExist(newUser.pseudo, newUser.mail)){
 			tmp = db.addUser(newUser);
-		}		
+		}
+		//La DB doit attribuer l'id à l'utilisateur
 		return tmp.id;
+		
 	}	
 }
