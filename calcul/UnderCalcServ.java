@@ -1,4 +1,4 @@
-package calc;
+package calcul;
 
 import java.util.ArrayList;
 
@@ -37,12 +37,16 @@ public class UnderCalcServ extends UnderCalc {
 
 	public void SetData(ArrayList<Double> data) {
 		for (int i = 0; i < data.size(); i++)
-			this.val.add(i,data.get(i));
+			this.val.add(data.get(i));
 	}
 
 	public void SetOpe(ArrayList<Character> ope) {
 		for (int i = 0; i < ope.size(); i++)
 			this.ope.add(i,ope.get(i));
+	}
+	public double GetRes()
+	{
+		return this.res;
 	}
 
 }

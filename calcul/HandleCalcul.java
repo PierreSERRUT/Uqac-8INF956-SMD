@@ -1,10 +1,12 @@
-package calc;
+package calcul;
 
 public class HandleCalcul {
 
 	private Calcul calc;
 	private String messageCalc;
 	private int choixNbUser;
+	private double resultat;
+	
 	//private ; structDonneEch
 	
 	// private UnderCalcServ [] listUCalc;
@@ -19,7 +21,8 @@ public class HandleCalcul {
 		messageCalc = RecuperationCalc(str);
 		calc = new Calcul(messageCalc);
 		choixNbUser = calc.GetNbParties();
-
+		calc.AffListeVal();
+		calc.AffListeOpe();
 		MiseEnFormeDonnees();
 		FragCalcul();
 
@@ -35,7 +38,7 @@ public class HandleCalcul {
 	}
 
 	public void MiseEnFormeDonnees() {
-		calc.SetData(messageCalc);
+		//calc.SetData(messageCalc);
 		calc.Decoupage();
 		calc.AffMat();
 	}
@@ -47,16 +50,25 @@ public class HandleCalcul {
 	public void EnvoiUnderCalc() {
 		//a faire
 	}
-	public void RecepUnderCalc() {
+	public void RecepUnderRes() {
 		//a faire
 	}
-	public double ResultFinal() {
+	public void ResultFinal() {
 		//a faire
-		return 0;
+		resultat = calc.CalcResFinal();
 	}
 	public void TimeOutUCalc() {
 		
 	}
 	
 	
+
+
+public static void main(String [ ] args)
+{
+	String calctest = "38.4-3.38+34*82+3-2.43+7.8-3*2.4$";
+	HandleCalcul handleC = new HandleCalcul(calctest);
+	
+	
+}
 }

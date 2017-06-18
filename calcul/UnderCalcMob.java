@@ -1,4 +1,4 @@
-package calc;
+package calcul;
 
 import java.util.ArrayList;
 
