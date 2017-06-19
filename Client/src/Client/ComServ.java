@@ -20,11 +20,11 @@ public class ComServ {
     private DataInputStream din;
     private DataOutputStream dout;
 	
-	public ComServ(){
+	public ComServ(){//A modifier
 		this.connectToServer();
-		this.sendMessage();
 		this.DisconnectFromServer();
 	}
+	
 	private void connectToServer(){
 		try {
 			//Create a socket to the server
@@ -47,19 +47,102 @@ public class ComServ {
 		}
 	}
 	
-	private void sendMessage(){
-	        //Send a command to the server
-	        try {
-				dout.writeUTF("inscription");//pseudo,mail,mdp
-		        dout.writeUTF("yolouser§§§yolo@user.com§§§coucou");
-		        //Read the server response
-		        //String rep = din.readUTF();
-		        int rep = din.readInt();
-		        System.out.println(rep);
-			} catch (IOException e) {
-				System.out.println("Error : cannot send message to server.");
-				System.exit(-2);
+	
+	private void sendConnexion(int userid, String mdp){
+        try { //réponse serveur ?
+			dout.writeUTF("connexion");
+	        dout.writeInt(userid);
+			dout.writeUTF(mdp);
+			String rep = din.readUTF();
+			if (rep.contentEquals("granted")){
+				// confirmation ?
 			}
+			else if (rep.contentEquals("denied")){
+				//Do something ?
+			}
+		} catch (IOException e) {
+			System.out.println("Error : cannot connect.");
+			System.exit(-2);
+		}
+	}
+
+	private void sendDeconnexion(int userid){
+        try {
+			dout.writeUTF("deconnexion");
+	        dout.writeInt(userid);
+	        //Read the server response
+	        //String rep = din.readUTF();
+	        String rep = din.readUTF(); // Réponse serveur
+	        System.out.println(rep);
+		} catch (IOException e) {
+			System.out.println("Error : cannot deconnect.");
+			System.exit(-2);
+		}
+	}
+	
+	private void sendInscription(String pseudo, String mail, String mdp){ // Récupère le userid
+
+        try {
+			dout.writeUTF("inscription");//pseudo,mail,mdp
+	        dout.writeUTF(pseudo+"§§§"+mail+"§§§"+mdp);
+	        //Read the server response
+	        //String rep = din.readUTF();
+	        int rep = din.readInt();
+	        System.out.println(rep);
+		} catch (IOException e) {
+			System.out.println("Error : cannot subscribe.");
+			System.exit(-2);
+		}
+	}
+	
+	private void sendReqCalcul(int userid){
+        try {
+			dout.writeUTF("reqCalcul");
+	        dout.writeInt(userid);
+	        //Read the server response
+	        //String rep = din.readUTF();
+	       // System.out.println(rep);
+		} catch (IOException e) {
+			System.out.println("Error : cannot submit calcul.");
+			System.exit(-2);
+		}
+	}
+	
+	private void sendPingConnect(int userid){
+		try {
+			dout.writeUTF("pingConnect");
+			dout.writeInt(userid);
+			//Read the server response
+			//String rep = din.readUTF();
+			// System.out.println(rep);
+		} catch (IOException e) {
+			System.out.println("Error : cannot ping connect.");
+			System.exit(-2);
+		}
+	}
+	
+	private void sendPingSsCalcul(int userid){
+        try {
+			dout.writeUTF("pingSsCalcul");
+	        dout.writeInt(userid);
+	        //Read the server response
+	        //String rep = din.readUTF();
+	       // System.out.println(rep);
+		} catch (IOException e) {
+			System.out.println("Error : cannot ping ss calcul.");
+			System.exit(-2);
+		}
+	}
+	
+	private String recepSsCalcul(){
+		String ssCalc ="";
+		try {
+			ssCalc += din.readUTF();
+		} catch (IOException e) {
+			System.out.println("Error : cannot receive ss calcul.");
+			System.exit(-2);
+		}
+		return ssCalc;
 	}
 	
 	private void DisconnectFromServer(){

@@ -36,7 +36,7 @@ public class HandleClient implements Runnable {
 			commande = din.readUTF();
 			System.out.println(commande);
 		}
-		catch (IOException e) {
+		catch (IOException e){
 		}
 
 		switch(commande){
@@ -58,13 +58,9 @@ public class HandleClient implements Runnable {
 		case "pingSsCalcul":
 			pingSsCalcul();
 			break;
-		case "receptionSsCalcul":
-			receptionSsCalcul();
-			break;
 		default:
 			break;
 		}
-
 	}
 
 	
@@ -109,6 +105,10 @@ public class HandleClient implements Runnable {
 			/*if (HandleDB.connexion(u)){ //appel static ?
 				Client client = createClient(userid);
 				ClientList.addConnect(client); //appel static ?
+				dout.writeUTF("granted"); // confirmation ?
+			}
+			else{
+			dout.writeUTF("denied"); //rejet
 			}*/
 		
 		} catch (IOException e){
@@ -128,7 +128,8 @@ public class HandleClient implements Runnable {
 			/*Client c = ClientList.findClient(userid); //appel static ?
 			if(c!=null){
 			//ClientList.decoClient(client) // appel static ?		
-			}		 
+			}
+			dout.writeUTF("deconnected"); 
 			*/
 		} catch (IOException e){
 
@@ -139,7 +140,8 @@ public class HandleClient implements Runnable {
 		/*	recevoir pseudo, mail et mdp
 		 * 	+envoyer à la DB
 		 * 	+connecter
-		 * 	+retourner userid au mobile 
+		 * 	+retourner userid au mobile
+		 * Retour -1 si erreur (?)
 		 */
 		String pseudo, mail, mdp;
 		try{
@@ -156,7 +158,7 @@ public class HandleClient implements Runnable {
 			
 			//renvoi de son userid à l'utilisateur*/
 			System.out.println(mail+"\n"+pseudo+"\n"+mdp); // vérif
-			int userid = 100;
+			int userid = 100; // A supprimer
 			dout.writeInt(userid);
 		} catch (IOException e){
 
