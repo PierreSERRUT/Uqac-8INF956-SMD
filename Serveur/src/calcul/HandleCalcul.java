@@ -48,13 +48,35 @@ public class HandleCalcul implements Runnable {
 	public void EnvoiUnderCalc(int indUCalc) {
 		// a faire
 		String message;
+		int UCalcId = this.calc.GetUCalcId(indUCalc);
 		message = this.calc.GetUCalForm(indUCalc);
-		// ENVOI
-		calc.
+		
+		/*
+		 * Envoi: idUcalc, calc
+		 * 
+		 * 
+		 */
+		
 	}
 
 	public void RecepUnderRes() {
-		// a faire
+		//a faire
+		/* loop d'attente de tout les sous-résultats 
+		 * 
+		 *  a partir de userid je 
+		 */
+		int i =0;
+		do{
+			//recep ss res
+			/*
+			if(reception) {	
+				this.calc.SetUndRes(indiceSsCalc,res);
+				i++;
+			}
+			 * 
+			 */
+			
+		}while(i<this.choixNbUser);
 	}
 
 	public void ResultFinal() {
@@ -72,14 +94,13 @@ public class HandleCalcul implements Runnable {
 
 		this.calc = new Calcul(this.clientId, this.clientId, this, this.messageCalc);
 		this.choixNbUser = this.calc.GetNbParties();
-		this.calc.AffListeVal();
-		this.calc.AffListeOpe();
+		//this.calc.AffListeVal();
+		//this.calc.AffListeOpe();
 		MiseEnFormeDonnees();
 		FragCalcul();
-		this.messageCalc = this.calc.GetUCalForm(0);
-		for (int i = 0; i < 4; i++) {
-			String mess = this.calc.GetUCalForm(i);
-			System.out.println(mess);
+		for (int i = 0; i < this.choixNbUser; i++) {
+			this.EnvoiUnderCalc(i);
+			
 		}
 	}
 }

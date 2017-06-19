@@ -5,8 +5,7 @@ import java.util.ArrayList;
 public class Calcul {
 
 	public HandleCalcul handleCalcul;
-	
-	
+		
 	private int idCalc;
 	private int nbParties;
 	private int idClient;
@@ -45,8 +44,6 @@ public class Calcul {
 		this.listVal = new ArrayList<Double>(1);
 		this.listOpe = new ArrayList<Character>(1);
 		this.listUndRes = new ArrayList<Double>(this.nbParties);
-		// this.listVal = new double[10];
-		// this.listOpe = new char[10];
 
 		this.SetData(calc);
 		this.matVal = new double[this.nbParties][this.listVal.size() / this.nbParties + 1];
@@ -90,6 +87,9 @@ public class Calcul {
 		uCalcForm = this.listUnderCal.get(indiceUCalc).PrepEnvoi();
 
 		return uCalcForm;
+	}
+	public int GetUCalcId (int indiceUCalc) {
+		return this.listUnderCal.get(indiceUCalc).GetUCalcId();
 	}
 
 	public void Decoupage() {
@@ -150,12 +150,17 @@ public class Calcul {
 
 	public void FragmentationCalcul() {
 		for (int i = 0; i < this.nbParties; i++) {
-
-			UnderCalcServ undCalcTmp = new UnderCalcServ();
-
-			undCalcTmp.SetData(this.GetDataParties(i));
-			undCalcTmp.SetOpe(this.GetOpeParties(i));
+			UnderCalcServ undCalcTmp = new UnderCalcServ(10+i,10+i,this.GetDataParties(i),this.GetOpeParties(i));
+			//undCalcTmp.SetData(this.GetDataParties(i));
+			//undCalcTmp.SetOpe(this.GetOpeParties(i));
 			this.listUnderCal.add(i, undCalcTmp);
+			
+			/*
+			 *  Recuperation des users a utiliser
+			 *  set le userid dans les ssCalc:
+			 *  this.listUnderCal.get(i).SetUserId(userid);
+			 */
+			
 		}
 	}
 
@@ -168,6 +173,10 @@ public class Calcul {
 			this.listUndRes.add(i, this.listUnderCal.get(i).GetRes());
 	}
 
+	public void SetUndRes(int indiceUCalc, int res) {
+		this.listUnderCal.get(indiceUCalc).SetResUCalc(res);
+	}
+	
 	public double CalcResFinal() {
 		this.GetUndRes();
 

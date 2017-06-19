@@ -44,7 +44,10 @@ public class UnderCalcServ extends UnderCalc {
 		return s;
 	}
 	
-
+	public void SetUserId(int i) {
+		this.idUser=i;
+	}
+	
 	public void SetData(ArrayList<Double> data) {
 		for (int i = 0; i < data.size(); i++)
 			this.val.add(data.get(i));
@@ -55,7 +58,14 @@ public class UnderCalcServ extends UnderCalc {
 			this.ope.add(i,ope.get(i));
 	}
 	
-	//SetREs a faire
+	public int GetUCalcId () {
+		return this.idUnderCalc;
+	}
+	
+	
+	public void SetResUCalc (double res) {
+		this.res=res;
+	}
 	
 	public double GetRes()
 	{
