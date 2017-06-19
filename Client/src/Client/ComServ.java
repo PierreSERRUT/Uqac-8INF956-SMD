@@ -126,21 +126,19 @@ public class ComServ {
 		}
 	}
 	
-	private int sendInscription(String pseudo, String mail, String mdp){ // Récupère le userid
+	private void sendInscription(String pseudo, String mail, String mdp){ // Récupère le userid
 		int userid =-1;
         try {
 			dout.writeUTF("inscription");//pseudo,mail,mdp
 	        dout.writeUTF(pseudo+"§§§"+mail+"§§§"+mdp);
 	        //Read the server response
 	        //String rep = din.readUTF();
-	        int rep = din.readInt();
-	        user.id = rep;
-	        System.out.println(rep);
+	        user.id = din.readInt();
+	        System.out.println(user.id);
 		} catch (IOException e) {
 			System.out.println("Error : cannot subscribe.");
 			System.exit(-2);
 		}
-        return userid;
 	}
 	
 	private void sendReqCalcul(int userid){
