@@ -69,6 +69,8 @@ public class HandleCalcul implements Runnable {
 		do{
 			//recep ss res
 			/*
+			 * Déterminer indice SsCalc par l'id 
+			 * pour l'instant: ID du SsCalcul = 10 + indice du ssCalc
 			if(reception) {	
 				this.calc.SetUndRes(indiceSsCalc,res);
 				i++;

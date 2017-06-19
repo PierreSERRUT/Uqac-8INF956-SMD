@@ -12,6 +12,12 @@ public class UnderCalcMob extends UnderCalc {
 		this.messRecu = new String();
 	}
 	
+	public UnderCalcMob(int id, ArrayList<Double> data, ArrayList<Character> ope) {
+		super(id, data, ope);
+		this.messRecu = new String();
+		
+	}
+
 	public void SetMessRecu(String str)  {
 	    this.messRecu = str;
 	  }
@@ -43,11 +49,6 @@ public class UnderCalcMob extends UnderCalc {
 		}
 	}
 	
-	public UnderCalcMob(int id, ArrayList<Double> data, ArrayList<Character> ope) {
-		super(id, data, ope);
-		this.messRecu = new String();
-	}
-
 	public double CalcUnderCalc() {
 		this.res = this.val.get(0);
 		int m = this.val.size();

@@ -150,6 +150,8 @@ public class Calcul {
 
 	public void FragmentationCalcul() {
 		for (int i = 0; i < this.nbParties; i++) {
+			
+			// ID du SsCalcul = 10 + indice du ssCalc
 			UnderCalcServ undCalcTmp = new UnderCalcServ(10+i,10+i,this.GetDataParties(i),this.GetOpeParties(i));
 			//undCalcTmp.SetData(this.GetDataParties(i));
 			//undCalcTmp.SetOpe(this.GetOpeParties(i));

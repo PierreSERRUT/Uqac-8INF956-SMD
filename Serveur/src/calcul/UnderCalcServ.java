@@ -69,7 +69,6 @@ public class UnderCalcServ extends UnderCalc {
 	
 	public double GetRes()
 	{
-		
 		return this.res;
 	}
 	
