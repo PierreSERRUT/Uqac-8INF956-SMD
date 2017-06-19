@@ -65,9 +65,7 @@ public class HandleClient implements Runnable {
 
 	
 	private Client createClient(int userid){
-		Client client = new Client();
-		client.handleClient = this;
-		client.userid = userid;		
+		Client client = new Client(userid, this);	
 		return client;
 	}
 	
