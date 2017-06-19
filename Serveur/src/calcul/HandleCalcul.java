@@ -102,5 +102,6 @@ public class HandleCalcul implements Runnable {
 			EnvoiUnderCalc(i);
 		}
 		RecepUnderRes();
+		ResultFinal();
 	}
 }
