@@ -19,24 +19,26 @@ public class UnderCalcMob extends UnderCalc {
 		int m = this.val.size();
 
 		for (int i = 1; i < m; i++) {
-			switch (this.ope.get(i - 1)) {
-			case '+':
-				this.res += this.val.get(i);
-				break;
-			case '-':
-				this.res -= this.val.get(i);
-				break;
-			case '*':
-				this.res *= this.val.get(i);
-				break;
-			case '/':
-				if (this.ope.get(i) == 0)
-					System.out.println("Division par zero: division non effectué");
-				else
+			if(this.val.get(i)!=0) {
+				switch (this.ope.get(i - 1)) {
+				case '+':
+					this.res += this.val.get(i);
+					break;
+				case '-':
+					this.res -= this.val.get(i);
+					break;
+				case '*':
 					this.res *= this.val.get(i);
-				break;
-			default:
-				break;
+					break;
+				case '/':
+					if (this.ope.get(i) == 0)
+						System.out.println("Division par zero: division non effectué");
+					else
+						this.res *= this.val.get(i);
+					break;
+				default:
+					break;
+				}
 			}
 		}
 		return this.res;
