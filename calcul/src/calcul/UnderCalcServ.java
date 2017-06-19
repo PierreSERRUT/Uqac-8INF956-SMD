@@ -22,18 +22,22 @@ public class UnderCalcServ extends UnderCalc {
 		this.lastTimeUser = 0;
 		this.flag = 0;
 	}
+	
+	public String PrepEnvoi() {
 
-	public void SetFlagEtat(int f) {
-		if ((f >= 0) && (f < 4))
-			this.flag = f;
-		else
-			this.flag = 0;
+		StringBuilder sb = new StringBuilder("");
+		
+		sb.append(this.val.get(0));
+		for(int i = 1;i<this.val.size()-1 ;i++){
+			sb.append("&");
+			sb.append(this.val.get(i));
+		}
+		 
+		String s = sb.toString(); 
+		
+		return s;
 	}
-
-	public void SetLastTimeUser() {
-		// a faire
-
-	}
+	
 
 	public void SetData(ArrayList<Double> data) {
 		for (int i = 0; i < data.size(); i++)
@@ -44,9 +48,25 @@ public class UnderCalcServ extends UnderCalc {
 		for (int i = 0; i < ope.size(); i++)
 			this.ope.add(i,ope.get(i));
 	}
+	
+	//SetREs a faire
+	
 	public double GetRes()
 	{
+		
 		return this.res;
+	}
+	
+	public void SetFlagEtat(int f) {
+		if ((f >= 0) && (f < 4))
+			this.flag = f;
+		else
+			this.flag = 0;
+	}
+
+	public void SetLastTimeUser() {
+		// a faire
+
 	}
 
 }
