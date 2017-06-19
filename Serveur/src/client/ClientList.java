@@ -6,30 +6,35 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class ClientList {
+public final class ClientList {
 	
 	// passer en static
 	
-	private LinkedHashMap<Client, Date> listClientCo;
-	private LinkedHashMap<Client, Date> listClientDispo; // ArrayList de tuple (pour le temps)
-	private int nbClientCoMax;
+	private static ClientList uniqueClientList;
 	
-	public ClientList(){
-		this.listClientCo = new LinkedHashMap<Client, Date>();
-		this.listClientDispo = new LinkedHashMap<Client, Date>();
-		this.nbClientCoMax = 5;
-	}
+	private LinkedHashMap<Integer, Client> listClientCo;
+	private LinkedHashMap<Integer, Client> listClientDispo;
+	private final int nbClientCoMax = 5;
 	
-	public ClientList(int MaxClient){
-		this.listClientCo = new LinkedHashMap<Client, Date>();
-		this.listClientDispo = new LinkedHashMap<Client, Date>();
-		this.nbClientCoMax = MaxClient;
-	}
+	
+	private ClientList(){
+		this.listClientCo = new LinkedHashMap<Integer, Client>();
+		this.listClientDispo = new LinkedHashMap<Integer, Client>();
+	} 
+	
+	// Méthode statique qui sert de pseudo-constructeur (utilisation du mot clef "synchronized" pour le multithread).
+    public static synchronized ClientList getInstance(){
+		if(uniqueClientList == null){
+			uniqueClientList = new ClientList();
+		}
+		return uniqueClientList;
+    }
 	
 	public void addConnect(Client client){
-		decoClient(client);
+		decoClient(client.getUserid());
+		client.setLastCo(new Date());
 		
-		this.listClientCo.put(client, new Date());
+		this.listClientCo.put(client.getUserid(), client);
 		
 		updateCoDispo();
 		updateLongDispo();
@@ -40,11 +45,11 @@ public class ClientList {
 		if(this.listClientCo.size() > this.nbClientCoMax){
 			int nbTransition = this.listClientCo.size() - this.nbClientCoMax;			
 			
-			Set<Entry<Client, Date>> setClientCo = this.listClientCo.entrySet();
-			Iterator<Entry<Client, Date>> iteratorClientCo = setClientCo.iterator();
+			Set<Entry<Integer, Client>> setClientCo = this.listClientCo.entrySet();
+			Iterator<Entry<Integer, Client>> iteratorClientCo = setClientCo.iterator();
 			
 			for (int i = 0; i < nbTransition; i++) {
-				Entry<Client, Date> pairClientDate = iteratorClientCo.next();
+				Entry<Integer, Client> pairClientDate = iteratorClientCo.next();
 				this.listClientDispo.put(pairClientDate.getKey(), pairClientDate.getValue());
 				this.listClientCo.remove(pairClientDate.getKey());
 			}
@@ -53,13 +58,13 @@ public class ClientList {
 	
 	// Permet de "clean" la liste dispo si les clients n'ont pas pingé depuis 30 min
 	private void updateLongDispo(){
-		Set<Entry<Client, Date>> setClientDispo = this.listClientDispo.entrySet();
-		Iterator<Entry<Client, Date>> iteratorClientDispo = setClientDispo.iterator();
+		Set<Entry<Integer, Client>> setClientDispo = this.listClientDispo.entrySet();
+		Iterator<Entry<Integer, Client>> iteratorClientDispo = setClientDispo.iterator();
 		
 		while(iteratorClientDispo.hasNext()){
-			Entry<Client, Date> pairClientDate = iteratorClientDispo.next();
+			Entry<Integer, Client> pairClientDate = iteratorClientDispo.next();
 			long dateNow = new Date().getTime();					
-			if(pairClientDate.getValue().getTime() - dateNow > 1800000 ){ // 1000 = 1s / 60 000 = 1min / 1 800 000 = 30min
+			if(pairClientDate.getValue().getLastCo().getTime() - dateNow > 1800000 ){ // 1000 = 1s / 60 000 = 1min / 1 800 000 = 30min
 				this.listClientDispo.remove(pairClientDate.getKey());
 			}
 			else{
@@ -68,9 +73,17 @@ public class ClientList {
 		}	
 	}
 	
-	public void decoClient(Client client){
-		this.listClientDispo.remove(client);
-		this.listClientCo.remove(client);
+	public void decoClient(int idClient){
+		this.listClientDispo.remove(idClient);
+		this.listClientCo.remove(idClient);
+	}
+	
+	public Client findClient(int idClient){
+		Client tmp = this.listClientCo.get(idClient);
+		if(tmp == null){
+			tmp = this.listClientDispo.get(idClient);
+		}
+		return tmp;
 	}
 	
 }
