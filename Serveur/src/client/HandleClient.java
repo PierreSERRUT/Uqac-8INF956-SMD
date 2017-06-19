@@ -175,7 +175,9 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 		try{
 			userid = din.readInt();
 			calcul = din.readUTF();
-			
+			/*
+			 * HandleCalcul a besoin du client pour envoyer les SsCalc
+			 */
 			HandleCalcul handleCalcul = new HandleCalcul(userid, calcul);
 			
 			

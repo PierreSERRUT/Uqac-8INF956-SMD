@@ -1,35 +1,29 @@
 package calcul;
 
-public class HandleCalcul {
+import client.Client;
 
+public class HandleCalcul implements Runnable {
+
+	private Client client;
 	private Calcul calc;
 	private String messageCalc;
 	private int choixNbUser;
 	private double resultat;
-	
-	//private ; structDonneEch
-	
+	private int clientId;
+
 	// private UnderCalcServ [] listUCalc;
 
 	public HandleCalcul() {
 
 	}
 
-	public HandleCalcul(String str) {
+	public HandleCalcul(int id, Client cl, String str) {
 
 		// listUCalc= new UnderCalcServ [10];
-		//this.messageCalc = RecuperationCalc(str);
-		this.calc = new Calcul(str);
-		this.choixNbUser = this.calc.GetNbParties();
-		this.calc.AffListeVal();
-		this.calc.AffListeOpe();
-		MiseEnFormeDonnees();
-		FragCalcul();
-		this.messageCalc=this.calc.GetUCalForm(0);
-		for(int i = 0;i<4;i++) {
-			String mess = this.calc.GetUCalForm(i);
-			System.out.println(mess);
-		}
+		this.clientId = id;
+		this.client = cl;
+		this.messageCalc = str;
+		
 	}
 
 	public String RecuperationCalc(String str) {
@@ -42,7 +36,7 @@ public class HandleCalcul {
 	}
 
 	public void MiseEnFormeDonnees() {
-		//calc.SetData(messageCalc);
+		// calc.SetData(messageCalc);
 		this.calc.Decoupage();
 		this.calc.AffMat();
 	}
@@ -52,40 +46,40 @@ public class HandleCalcul {
 	}
 
 	public void EnvoiUnderCalc(int indUCalc) {
-		//a faire
+		// a faire
 		String message;
 		message = this.calc.GetUCalForm(indUCalc);
-		//ENVOI
+		// ENVOI
+		calc.
 	}
+
 	public void RecepUnderRes() {
-		//a faire
+		// a faire
 	}
+
 	public void ResultFinal() {
-		//a faire
+		// a faire
 		this.resultat = this.calc.CalcResFinal();
 	}
+
 	public void TimeOutUCalc() {
-		
+
 	}
-	
-	
 
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
 
-public static void main(String [ ] args)
-{
-	String calctest = "1+2+3+4+5+6+7+8+9+10+11+12+13+14+15+16+17+18+19+20+21+22+23+24+25+26+27+28+29+30+31+32+33+34+35$";
-	
-	HandleCalcul handleC = new HandleCalcul(calctest);
-	/*UnderCalcMob uCalc = new UnderCalcMob();
-	uCalc.SetMessRecu(handleC.messageCalc);
-	uCalc.RecupUCalc();
-	uCalc.AffMess();
-	uCalc.AffVal();
-	uCalc.AffOpe();
-	uCalc.CalcUnderCalc();
-	System.out.println("Res : " + uCalc.res);*/
-	 
-	
-	
-}
+		this.calc = new Calcul(this.clientId, this.clientId, this, this.messageCalc);
+		this.choixNbUser = this.calc.GetNbParties();
+		this.calc.AffListeVal();
+		this.calc.AffListeOpe();
+		MiseEnFormeDonnees();
+		FragCalcul();
+		this.messageCalc = this.calc.GetUCalForm(0);
+		for (int i = 0; i < 4; i++) {
+			String mess = this.calc.GetUCalForm(i);
+			System.out.println(mess);
+		}
+	}
 }
