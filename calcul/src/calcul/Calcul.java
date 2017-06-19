@@ -95,6 +95,12 @@ public class Calcul {
 			}
 		}
 	}
+	public String GetUCalForm (int indiceUCalc) {
+		String uCalcForm;
+		uCalcForm = this.listUnderCal.get(indiceUCalc).PrepEnvoi();
+		
+		return uCalcForm;
+	}
 
 	public void Decoupage() {
 		int taillePartVal = this.listVal.size() / this.nbParties;
@@ -126,7 +132,7 @@ public class Calcul {
 		// Matrice OPE
 		
 		for(int i = 0; i<restePartVal;i++) {
-			for(int j = 0; j<(taillePartVal); j++) {
+			for(int j = 0; j<(taillePartVal-1); j++) {
 				//System.out.println("indice ope : " + indiceListOpe);
 				this.matOpe[i][j] = this.listOpe.get(indiceListOpe);
 				indiceListOpe++;
@@ -137,12 +143,12 @@ public class Calcul {
 		}
 		
 		for(int i = restePartVal; i<this.nbParties;i++) {
-			for(int j = 0; j<taillePartVal-1; j++) {
+			for(int j = 0; j<taillePartVal-2; j++) {
 				//System.out.println("indice ope : " + indiceListOpe);
 				this.matOpe[i][j] = this.listOpe.get(indiceListOpe);
 				indiceListOpe++;
 			}
-			this.matOpe[i][taillePartVal] = '$';
+			//this.matOpe[i][taillePartVal] = '$';
 			if(indiceListOpe <= this.listOpe.size()-1){
 				//System.out.println("ajout sur derniere ligne");
 				this.matOpe[this.nbParties][i] = this.listOpe.get(indiceListOpe);

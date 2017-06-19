@@ -28,9 +28,15 @@ public class UnderCalcServ extends UnderCalc {
 		StringBuilder sb = new StringBuilder("");
 		
 		sb.append(this.val.get(0));
-		for(int i = 1;i<this.val.size()-1 ;i++){
-			sb.append("&");
+		for(int i = 1;i<this.val.size() ;i++){
+			sb.append("#");
 			sb.append(this.val.get(i));
+		}
+		sb.append("&");
+		sb.append(this.ope.get(0));
+		for(int i = 1;i<this.ope.size() ;i++){
+			sb.append("#");
+			sb.append(this.ope.get(i));
 		}
 		 
 		String s = sb.toString(); 
