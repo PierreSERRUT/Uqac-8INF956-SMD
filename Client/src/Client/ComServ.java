@@ -1,4 +1,4 @@
-package Client;
+package client;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -10,6 +10,11 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
+
 
 public class ComServ {
 	private static int port = 2016;
@@ -19,12 +24,50 @@ public class ComServ {
     private InputStream serverInput;
     private DataInputStream din;
     private DataOutputStream dout;
+    private boolean isOver;
+    private User user;
+    
+	
 	/*
 	 * Attention aux exception : exit -2 ==> fait quitter le programme en cas d'erreur
 	 * manque boucle d'attente recep demande calcul
 	 */
 	public ComServ(){//A modifier
+		user = new User();
+		// choose your user
+		user.pseudo = "YoloUser";
+		user.password = "password";
+		user.mail = "yolo@yahoo.fr";
+		/*
+		user.pseudo = "SwagUser";
+		user.password = "password";
+		user.mail = "swag@gmail.fr";
+		
+		user.pseudo = "TMTCUser";
+		user.password = "password";
+		user.mail = "tmtc@yahoo.fr";
+		
+		user.pseudo = "newUser";
+		user.password = "password";
+		user.mail = "coucou@gmail.fr";
+		*/
+		
 		this.connectToServer();
+		// Faire inscription
+		isOver = false;
+		int delay = 600000; // 600 000ms = 10 min
+		TimerTask pingDispo = new TimerTask() {
+			
+			@Override
+			public void run() {
+				// Action
+				sendPingConnect(user.id);
+			}
+		};
+	    Timer ping = new Timer();
+	    ping.scheduleAtFixedRate(pingDispo, new Date(), delay);
+
+		
 		this.DisconnectFromServer();
 	}
 	
@@ -89,7 +132,10 @@ public class ComServ {
 			dout.writeUTF("inscription");//pseudo,mail,mdp
 	        dout.writeUTF(pseudo+"§§§"+mail+"§§§"+mdp);
 	        //Read the server response
-	        userid = din.readInt();
+	        //String rep = din.readUTF();
+	        int rep = din.readInt();
+	        user.id = rep;
+	        System.out.println(rep);
 		} catch (IOException e) {
 			System.out.println("Error : cannot subscribe.");
 			System.exit(-2);
@@ -157,5 +203,5 @@ public class ComServ {
 			System.out.println("Error : cannot disconnect from server.");
 			System.exit(-2);
 		}
-	}
+	}	
 }

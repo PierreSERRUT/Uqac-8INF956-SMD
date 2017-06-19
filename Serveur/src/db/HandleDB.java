@@ -1,6 +1,5 @@
 package db;
 
-import client.ClientList;
 
 public class HandleDB {
 
