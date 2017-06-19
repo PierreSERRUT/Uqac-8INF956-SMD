@@ -143,7 +143,7 @@ public class Calcul {
 		}
 		
 		for(int i = restePartVal; i<this.nbParties;i++) {
-			for(int j = 0; j<taillePartVal-2; j++) {
+			for(int j = 0; j<taillePartVal-1; j++) {
 				//System.out.println("indice ope : " + indiceListOpe);
 				this.matOpe[i][j] = this.listOpe.get(indiceListOpe);
 				indiceListOpe++;
