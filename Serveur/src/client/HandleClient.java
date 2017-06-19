@@ -8,10 +8,11 @@ import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import calcul.HandleCalcul;
 import db.HandleDB;
 import db.User;
 
-public class HandleClient implements Runnable {
+public class HandleClient implements Runnable {//manque boucle contrôle run, attente message
 
 	private Socket clientSocket;
 	private InputStream clientInput;
@@ -165,7 +166,7 @@ public class HandleClient implements Runnable {
 
 	public void reqCalcul(){
 		/* recevoir userid, requête calcul
-		 * ??
+		 * 
 		 * profit
 		 */
 		int userid;
@@ -174,6 +175,10 @@ public class HandleClient implements Runnable {
 		try{
 			userid = din.readInt();
 			calcul = din.readUTF();
+			
+			HandleCalcul handleCalcul = new HandleCalcul(userid, calcul);
+			
+			
 		} catch (IOException e){
 
 		}	
@@ -210,26 +215,29 @@ public class HandleClient implements Runnable {
 	public void pingSsCalcul(){
 		/*	recevoir userid
 		 * 	MAJ handlecalcul (?)
+		 * TO do si temps permet
 		 */
 		int userid;
 
 		try{
-			userid = din.readInt();		
+			userid = din.readInt();	
 		} catch (IOException e){
 
 		}
 	}
 
 	public void receptionSsCalcul(){
-		/*	recevoir userid, sous calcul
-		 *	MAJ handlecalcul
+		/*	recevoir userid, réponse sous calcul, id calcul, (id ssCalcul ?)
+		 *	retrouver calcul dans calculList
+		 *	envoyer vers HandleCalcul via calcul
 		 */
 		int userid;
-		String ssCalcul;
+		String repSsCalcul;
 
 		try{
 			userid = din.readInt();
-			ssCalcul = din.readUTF();
+			repSsCalcul = din.readUTF();
+			
 		} catch (IOException e){
 
 		}
@@ -237,9 +245,21 @@ public class HandleClient implements Runnable {
 
 	public void sendSsCalcul(String calcul){
 		//Envoyer le ss calcul
-		// Mettre en forme ?
+		/*
+		 * demander si possible calcul
+		 * réponse ==> oui, j'envoi
+		 * ==> non, retourner erreur
+		 */
 		try{
-			dout.writeUTF(calcul);		
+			dout.writeUTF("calculdemand");
+			String rep =  din.readUTF();
+			if (rep.contentEquals("dispo")){
+				dout.writeUTF(calcul);
+				//return true 
+			}
+			else{
+				//return false
+			}
 		} catch (IOException e){
 
 		}

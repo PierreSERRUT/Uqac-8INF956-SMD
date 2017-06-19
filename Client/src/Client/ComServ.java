@@ -19,7 +19,10 @@ public class ComServ {
     private InputStream serverInput;
     private DataInputStream din;
     private DataOutputStream dout;
-	
+	/*
+	 * Attention aux exception : exit -2 ==> fait quitter le programme en cas d'erreur
+	 * manque boucle d'attente recep demande calcul
+	 */
 	public ComServ(){//A modifier
 		this.connectToServer();
 		this.DisconnectFromServer();
@@ -80,19 +83,18 @@ public class ComServ {
 		}
 	}
 	
-	private void sendInscription(String pseudo, String mail, String mdp){ // Récupère le userid
-
+	private int sendInscription(String pseudo, String mail, String mdp){ // Récupère le userid
+		int userid =-1;
         try {
 			dout.writeUTF("inscription");//pseudo,mail,mdp
 	        dout.writeUTF(pseudo+"§§§"+mail+"§§§"+mdp);
 	        //Read the server response
-	        //String rep = din.readUTF();
-	        int rep = din.readInt();
-	        System.out.println(rep);
+	        userid = din.readInt();
 		} catch (IOException e) {
 			System.out.println("Error : cannot subscribe.");
 			System.exit(-2);
 		}
+        return userid;
 	}
 	
 	private void sendReqCalcul(int userid){
