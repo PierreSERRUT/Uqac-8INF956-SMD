@@ -1,18 +1,28 @@
 package db;
 
+import client.ClientList;
+
 public class HandleDB {
 
 	private DataBase db;
-	
+	private static HandleDB uniqueHandleDB;
 	// passer en static
 	
-	public HandleDB(){
-		
+	private HandleDB(){
+		db = new DataBase();
 	}
 	
-	public void initDB(){
-		// Aller chercher le fichier de DB pour la construire ?
+	private void initDB(){
+		// Aller chercher le fichier de DB pour la construire (Pour faire de la persistance)
 	}
+	
+	public static synchronized HandleDB getInstance(){
+		if(uniqueHandleDB == null){
+			uniqueHandleDB = new HandleDB();
+		}
+		return uniqueHandleDB;
+    }
+	
 	
 	public boolean connexion(User user){
 		boolean ok = false;

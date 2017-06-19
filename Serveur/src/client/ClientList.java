@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public final class ClientList {
+public class ClientList {
 	
 	// passer en static
 	
