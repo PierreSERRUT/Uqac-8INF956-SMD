@@ -21,8 +21,11 @@ public class UnderCalcMob extends UnderCalc {
 		int indiceLimit = 0;
 		String tmp;
 		for (int i = 0; i < this.messRecu.length(); i++) {
-			if (this.messRecu.charAt(i) == '&')
+			if (this.messRecu.charAt(i) == '&') {
 				indiceLimit = i;
+				break;
+			}
+			
 		}
 		System.out.println("indice Limite: " + indiceLimit);
 		for (int i = 0; i < indiceLimit; i++) {
