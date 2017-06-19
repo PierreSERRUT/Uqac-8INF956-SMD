@@ -15,9 +15,7 @@ public class HandleClient implements Runnable {
 
 	private Socket clientSocket;
 	private InputStream clientInput;
-	private OutputStream clientOutput;
-	private ObjectInputStream clientObject;
-	private Object objectInput;
+	private OutputStream serverOutput;
 	private DataInputStream din;
 	private DataOutputStream dout;
 
@@ -31,11 +29,9 @@ public class HandleClient implements Runnable {
 		String commande = "";
 		try{
 			clientInput = clientSocket.getInputStream();
-			clientOutput = clientSocket.getOutputStream();
-			clientObject = new ObjectInputStream(clientInput);
-			//objectInput = clientObject.readObject();
+			serverOutput = clientSocket.getOutputStream();
 			din = new DataInputStream(clientInput);
-			dout = new DataOutputStream(clientOutput);
+			dout = new DataOutputStream(serverOutput);
 
 			commande = din.readUTF();
 			System.out.println(commande);
@@ -75,8 +71,7 @@ public class HandleClient implements Runnable {
 	private Client createClient(int userid){
 		Client client = new Client();
 		client.handleClient = this;
-		client.userid = userid;
-		
+		client.userid = userid;		
 		return client;
 	}
 	
@@ -129,8 +124,12 @@ public class HandleClient implements Runnable {
 
 		try{
 			userid = din.readInt();
-			//Récuperer le client ? envoyer le userid ?
-			//ClientList.decoClient(client)
+			//Récuperer le client
+			/*Client c = ClientList.findClient(userid); //appel static ?
+			if(c!=null){
+			//ClientList.decoClient(client) // appel static ?		
+			}		 
+			*/
 		} catch (IOException e){
 
 		}
@@ -156,7 +155,7 @@ public class HandleClient implements Runnable {
 			ClientList.addConnect(client); //appel static ?
 			
 			//renvoi de son userid à l'utilisateur*/
-			System.out.println(mail+"\n"+pseudo+"\n"+mdp);
+			System.out.println(mail+"\n"+pseudo+"\n"+mdp); // vérif
 			int userid = 100;
 			dout.writeInt(userid);
 		} catch (IOException e){
@@ -170,9 +169,11 @@ public class HandleClient implements Runnable {
 		 * profit
 		 */
 		int userid;
+		String calcul;
 
 		try{
-			userid = din.readInt();		
+			userid = din.readInt();
+			calcul = din.readUTF();
 		} catch (IOException e){
 
 		}	
@@ -185,9 +186,23 @@ public class HandleClient implements Runnable {
 		int userid;
 
 		try{
-			userid = din.readInt();		
+			userid = din.readInt();	
+			//Récupérer le client
+			/*Client c = ClientList.findClient(userid); //appel static ?
+			if (c!=null){
+				if(c.handleClient != this){
+					System.out.println("! Different HandleClient !");
+					c.handleClient = this;
+				}
+				//Maj ClientList
+				ClientList.addConnect(c); //appel static ?
+			}
+			else {
+				//Maj ClientList
+				c = createClient(userid);
+				ClientList.addConnect(c); //appel static ?
+			}*/
 		} catch (IOException e){
-
 		}
 
 	}
@@ -210,19 +225,24 @@ public class HandleClient implements Runnable {
 		 *	MAJ handlecalcul
 		 */
 		int userid;
+		String ssCalcul;
 
 		try{
-			userid = din.readInt();		
+			userid = din.readInt();
+			ssCalcul = din.readUTF();
 		} catch (IOException e){
 
 		}
 	}
 
-	public void sendSsCalcul(){
-		/*	envoyer sous calcul
-		 * ???
-		 * profit
-		 */
+	public void sendSsCalcul(String calcul){
+		//Envoyer le ss calcul
+		// Mettre en forme ?
+		try{
+			dout.writeUTF(calcul);		
+		} catch (IOException e){
+
+		}
 	}
 
 
