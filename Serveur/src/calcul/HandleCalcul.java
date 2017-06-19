@@ -99,8 +99,8 @@ public class HandleCalcul implements Runnable {
 		MiseEnFormeDonnees();
 		FragCalcul();
 		for (int i = 0; i < this.choixNbUser; i++) {
-			this.EnvoiUnderCalc(i);
-			
+			EnvoiUnderCalc(i);
 		}
+		RecepUnderRes();
 	}
 }
