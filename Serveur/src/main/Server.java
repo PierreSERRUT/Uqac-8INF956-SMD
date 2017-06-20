@@ -8,8 +8,8 @@ import client.HandleClient;
 
 
 public class Server {
-    private static ServerSocket serveurSocket;
-    private Socket clientSock;
+    private static ServerSocket serveurSocket = null;
+    private Socket clientSock = null;
 
     /**
      * Create a server that listens on the port defined
@@ -37,7 +37,7 @@ public class Server {
             try {
                 //Accept the connection from the client
                 clientSock = serveurSocket.accept();
-                new HandleClient (clientSock).run();
+                new HandleClient (clientSock).start();
             } catch (IOException e) {
                 e.printStackTrace();
             }

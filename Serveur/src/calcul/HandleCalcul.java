@@ -5,23 +5,26 @@ import db.HandleDB;
 
 public class HandleCalcul implements Runnable {
 
+	private Client client;
 	private Calcul calc;
 	private String messageCalc;
 	private int choixNbUser;
+	private double resultat;
 	private int clientId;
 
 	// private UnderCalcServ [] listUCalc;
 
 	public HandleCalcul() {
-
+		//this.run();
 	}
 
-	// passer le client en idClient
 	public HandleCalcul(Client client, String calcul) {
 
 		// listUCalc= new UnderCalcServ [10];
 		this.clientId = client.getUserid();
+		this.client = client;
 		this.messageCalc = calcul;
+		this.run();
 		
 	}
 
@@ -80,10 +83,14 @@ public class HandleCalcul implements Runnable {
 		}while(i<this.choixNbUser);
 	}
 
+	public void resultFinal() {
+		// a faire
+		this.resultat = this.calc.calcResFinal();
+	}
+
 	public void timeOutUCalc() {
 
 	}
-	
 
 	@Override
 	public void run() {

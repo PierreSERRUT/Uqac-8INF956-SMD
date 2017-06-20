@@ -13,7 +13,7 @@ import calcul.HandleCalcul;
 import db.HandleDB;
 import db.User;
 
-public class HandleClient implements Runnable {//manque boucle contrôle run, attente message
+public class HandleClient extends Thread {//manque boucle contrôle run, attente message
 
 	private Socket clientSocket;
 	private InputStream clientInput;
@@ -24,6 +24,7 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 
 	public HandleClient(Socket clientSock){
 		this.clientSocket = clientSock;
+		//this.run();
 	}
 
 	@Override
@@ -36,7 +37,6 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 				serverOutput = clientSocket.getOutputStream();
 				din = new DataInputStream(clientInput);
 				dout = new DataOutputStream(serverOutput);
-
 				commande = din.readUTF();
 				System.out.println(commande);
 			}
@@ -65,9 +65,26 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 			case "resUnderCalcul":
 				receptionSsCalcul();
 				break;
+			case "pingpong":
+				System.out.println("pingpong");
+				break;
+			case "testscan":
+				try {
+					dout.writeUTF("TEST SCAN OK");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				System.out.println("J'ai répondu");
 			default:
 				break;
 			}
+		}
+		try {
+			clientInput.close();
+			serverOutput.close();
+			clientSocket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -131,7 +148,8 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 		try{
 			userid = din.readInt();
 			ClientList.getInstance().decoClient(userid);
-			dout.writeUTF("deconnected"); 
+			dout.writeUTF("deconnected");
+			dout.flush();
 			this.isOver=true;
 		} catch (IOException e){
 
@@ -181,6 +199,7 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 		try{
 			userid = din.readInt();
 			calcul = din.readUTF();
+			System.out.println(calcul);
 
 			Client client = ClientList.getInstance().findClient(userid);
 			

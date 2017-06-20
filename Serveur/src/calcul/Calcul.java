@@ -15,7 +15,7 @@ public class Calcul {
 	private int idClient;
 	private Boolean isOver;
 
-	private double result;
+	private double res;
 
 	private ArrayList<UnderCalcServ> listUnderCal;
 
@@ -34,7 +34,6 @@ public class Calcul {
 	// private char[] listOpe;
 
 	public Calcul() {
-		this.achievement = 0;
 		this.isOver = false;
 	}
 	
@@ -68,7 +67,7 @@ public class Calcul {
 		this.idClient = idClient;
 		this.handleCalcul = hCalc;
 
-		this.nbParties = 4;
+		this.nbParties = 2;
 		this.achievement = 0;
 
 		this.listUnderCal = new ArrayList<UnderCalcServ>(this.nbParties);
@@ -208,10 +207,6 @@ public class Calcul {
 		return nbParties;
 	}
 
-	public double getRes() {
-		return result;
-	}
-
 	public void getUndRes() {
 		for (int i = 0; i < this.nbParties; i++)
 			this.listUndRes.add(i, this.listUnderCal.get(i).getRes());
@@ -226,31 +221,31 @@ public class Calcul {
 	public double calcResFinal() {
 		this.getUndRes();
 
-		this.result = this.listUndRes.get(0);
+		this.res = this.listUndRes.get(0);
 		int m = this.listUndRes.size();
 
 		for (int i = 1; i < m; i++) {
 			switch (matOpe[m][i - 1]) {
 			case '+':
-				this.result += this.listUndRes.get(i);
+				this.res += this.listUndRes.get(i);
 				break;
 			case '-':
-				this.result -= this.listUndRes.get(i);
+				this.res -= this.listUndRes.get(i);
 				break;
 			case '*':
-				this.result *= this.listUndRes.get(i);
+				this.res *= this.listUndRes.get(i);
 				break;
 			case '/':
 				if (matOpe[m][i] == 0)
 					System.out.println("Division par zero: division non effectu�");
 				else
-					this.result *= this.listUndRes.get(i);
+					this.res *= this.listUndRes.get(i);
 				break;
 			default:
 				break;
 			}
 		}
-		return result;
+		return res;
 	}
 
 	public ArrayList<Double> getDataParties(int numParties) {
@@ -301,7 +296,7 @@ public class Calcul {
 	
 	public void incrementAchievment(){
 		this.achievement ++;
-		if(this.achievement >= this.listUnderCal.size()){
+		if(this.achievement > this.listUnderCal.size()){
 			this.setRes(this.calcResFinal());
 		}
 	}

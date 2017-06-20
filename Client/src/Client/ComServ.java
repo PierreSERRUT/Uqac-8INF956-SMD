@@ -1,16 +1,15 @@
 package client;
 
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,79 +34,113 @@ public class ComServ {
 	 */
 	public ComServ(){//A modifier
 		user = new User();
-		// choose your user
-		user.pseudo = "YoloUser";
-		user.password = "password";
-		user.mail = "yolo@yahoo.fr";
-		/*
-		user.pseudo = "SwagUser";
-		user.password = "password";
-		user.mail = "swag@gmail.fr";
-		
-		user.pseudo = "TMTCUser";
-		user.password = "password";
-		user.mail = "tmtc@yahoo.fr";
-		
-		user.pseudo = "newUser";
-		user.password = "password";
-		user.mail = "coucou@gmail.fr";
-		*/
-		
+		//Choice of user
+		System.out.println("choose your user [1-4]");
+		Scanner scan = new Scanner(System.in);
+		switch(scan.nextInt()){
+		case(1):
+			user.pseudo = "YoloUser";
+			user.password = "password";
+			user.mail = "yolo@yahoo.fr";
+			break;
+		case(2):
+			user.pseudo = "SwagUser";
+			user.password = "password";
+			user.mail = "swag@gmail.fr";
+			break;
+		case(3):
+			user.pseudo = "TMTCUser";
+			user.password = "password";
+			user.mail = "tmtc@yahoo.fr";
+			break;
+		default:
+			user.pseudo = "newUser";
+			user.password = "password";
+			user.mail = "coucou@gmail.fr";
+			break;
+		}
+		this.run();
+	}
+	
+	private void run(){
 		this.connectToServer();
 		isOver = false;
-		int delay = 60000; // 600 000ms = 10 min
+		int delay = 60000; // 600000ms = 10 min
 		TimerTask pingDispo = new TimerTask() {
-			
+						
 			@Override
 			public void run() {
 				// Action
-				connectToServer();
-				System.out.println("ping");
-				try {
-					dout.writeUTF("ping!!");
-				} catch (IOException e) {
+				//try {
+					//dout.writeUTF("sendPingConnect");
+					System.out.println("\tping");
+			/*	} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				}*/
 				sendPingConnect(user.id);
-				DisconnectFromServer();
-				System.out.println("i'm done");
+				//DisconnectFromServer();
 			}
 		};
-		
 	    Timer ping = new Timer();
-		sendInscription(user.pseudo,user.mail,user.password);
-		sendDeconnexion(user.id);
-		this.DisconnectFromServer();
-		
-		connectToServer();
-		sendConnexion(user.id,user.password);
-	    sendDeconnexion(user.id);
-		this.DisconnectFromServer();
-	    //ping.scheduleAtFixedRate(pingDispo, new Date(), delay);	
 	    
-	    connectToServer();
-	    System.out.println("j'essaie de me co");
-	    sendConnexion(user.id,user.password);
-	    DisconnectFromServer();
-	    
-	    Runnable listen = new Runnable() {
-	    	
+	    Runnable listen = new Runnable() {    	
 	    	@Override
 	    	public void run() {
-	    		connectToServer();
+				//Scanner scan = new Scanner(din);
 	    		try {
-	    			dout.writeUTF("rdy");
-	    			System.out.println("waiting…");
-	    			String mess = din.readUTF();
-	    			System.out.println(mess);
-	    		} catch (IOException e) {
-	    			e.printStackTrace();
+	    			System.out.println("Attente requête sous calcul");
+	    			//if(scan.hasNext())System.out.println("HAS NEXT");
+	    			System.out.println(din.readUTF());
+	    			//System.out.println(scan.next());
+	    			//scan.close();
+	    		} catch (NoSuchElementException | IOException e) {
+	    			//System.out.println("Je ferme le scan din");
+	    			//scan.close();
 	    		}
-	    		DisconnectFromServer();
 	    		;}
 	    };
-	    //new Thread(listen).start();
+	    Thread th = new Thread(listen);
+
+		Boolean isOver = false;
+		/*th.start();
+		ping.scheduleAtFixedRate(pingDispo, new Date(), delay);	
+		System.out.println(menu.next());
+		this.DisconnectFromServer();*/
+		Scanner menu = new Scanner(System.in);
+		//this.connectToServer();
+		//sendInscription(user.pseudo,user.mail,user.password);
+		while(!isOver){
+			System.out.println("1. Inscription\n2. Connexion\n3. Envoyer Calcul\n4. Déconnexion\n5. Arrêt");
+			switch(menu.nextInt()){
+			case(1):
+				sendInscription(user.pseudo,user.mail,user.password);
+			break;
+			case(2):
+				sendConnexion(user.id,user.password);
+			th.start();
+			ping.scheduleAtFixedRate(pingDispo, new Date(), delay);	
+			break;
+			case(3):
+				String calcul = "1+2+3+4+5+6";
+			sendReqCalcul(user.id, calcul);
+			break;
+			case(4):
+			ping.cancel();
+			ping.purge();
+			sendDeconnexion(user.id);
+			th.interrupt();
+				break;
+			case(5):
+				menu.close();
+			isOver=true;
+			default:
+				break;
+			}
+		}
+		
+		this.DisconnectFromServer();
+		System.out.println("Le client a terminé");    
 	}
 	
 	private void connectToServer(){
@@ -156,8 +189,8 @@ public class ComServ {
 			dout.writeUTF("deconnexion");
 	        dout.writeInt(userid);
 	        //Read the server response
-	        String rep = din.readUTF(); // Réponse serveur
-	        System.out.println(rep);
+	        //String rep = din.readUTF(); // Réponse serveur
+	        //System.out.println(rep);
 		} catch (IOException e) {
 			System.out.println("Error : cannot deconnect.");
 			e.printStackTrace();
@@ -172,6 +205,7 @@ public class ComServ {
 	        dout.writeUTF(pseudo+"§§§"+mail+"§§§"+mdp);
 	        //Read the server response
 	        user.id = din.readInt();
+	        if(user.id!=-1) System.out.println("Inscription réussi. user.id = "+user.id);
 		} catch (IOException e) {
 			System.out.println("Error : cannot subscribe.");
 			System.exit(-2);
@@ -191,7 +225,7 @@ public class ComServ {
 			System.exit(-2);
 		}
 	}
-	
+		
 	private void sendPingConnect(int userid){
 		try {
 			dout.writeUTF("pingConnect");
