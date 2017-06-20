@@ -8,15 +8,12 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 public class ClientList {
-	
-	// passer en static
-	
+		
 	private static ClientList uniqueClientList;
 	
 	private LinkedHashMap<Integer, Client> listClientCo;
 	private LinkedHashMap<Integer, Client> listClientDispo;
 	private final int nbClientCoMax = 5;
-	
 	
 	private ClientList(){
 		this.listClientCo = new LinkedHashMap<Integer, Client>();
@@ -31,7 +28,7 @@ public class ClientList {
 		return uniqueClientList;
     }
 	
-	public void addConnect(Client client){
+	public synchronized void  addConnect(Client client){
 		decoClient(client.getUserid());
 		client.setLastCo(new Date());
 		
@@ -74,12 +71,12 @@ public class ClientList {
 		}	
 	}
 	
-	public void decoClient(int idClient){
+	public synchronized void decoClient(int idClient){
 		this.listClientDispo.remove(idClient);
 		this.listClientCo.remove(idClient);
 	}
 	
-	public Client findClient(int idClient){
+	public synchronized Client findClient(int idClient){
 		Client tmp = this.listClientCo.get(idClient);
 		if(tmp == null){
 			tmp = this.listClientDispo.get(idClient);
@@ -87,7 +84,7 @@ public class ClientList {
 		return tmp;
 	}
 	
-	public ArrayList<Client> getClientForCalcul(int nbClient){
+	public synchronized ArrayList<Client> getClientForCalcul(int nbClient){
 		ArrayList<Client> listClient = new ArrayList<Client>();
 		int iteratorCo = 0;
 		int iteratorDispo = 0;
@@ -120,10 +117,7 @@ public class ClientList {
 			Entry<Integer, Client> pairIdClient = iteratorClientDispo.next();
 			listClient.add(pairIdClient.getValue());
 			this.listClientCo.remove(pairIdClient.getKey());
-		}
-		
+		}	
 		return listClient;
 	}
-	
-	
 }

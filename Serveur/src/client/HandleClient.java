@@ -175,10 +175,11 @@ public class HandleClient implements Runnable {//manque boucle contrÃ´le run, at
 		try{
 			userid = din.readInt();
 			calcul = din.readUTF();
-			/*
-			 * HandleCalcul a besoin du client pour envoyer les SsCalc
-			 */
-			HandleCalcul handleCalcul = new HandleCalcul(userid, calcul);
+
+			Client client = ClientList.getInstance().findClient(userid);
+			
+			HandleCalcul handleCalcul = new HandleCalcul(client, calcul);
+			// attention au Garbage collector, du plus le handle va se crée et ne rien faire !
 			
 			
 		} catch (IOException e){

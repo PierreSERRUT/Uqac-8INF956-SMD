@@ -1,6 +1,5 @@
 package db;
 
-
 public class HandleDB {
 
 	private DataBase db;

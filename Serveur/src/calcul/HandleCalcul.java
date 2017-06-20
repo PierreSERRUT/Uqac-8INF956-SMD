@@ -17,12 +17,12 @@ public class HandleCalcul implements Runnable {
 
 	}
 
-	public HandleCalcul(int id, Client cl, String str) {
+	public HandleCalcul(Client client, String calcul) {
 
 		// listUCalc= new UnderCalcServ [10];
-		this.clientId = id;
-		this.client = cl;
-		this.messageCalc = str;
+		this.clientId = client.getUserid();
+		this.client = client;
+		this.messageCalc = calcul;
 		
 	}
 
