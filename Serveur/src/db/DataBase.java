@@ -2,15 +2,17 @@ package db;
 
 import java.util.ArrayList;
 
+import calcul.Calcul;
+
 public class DataBase {
 	
 	private ArrayList<User> userTable;
-	private ArrayList<DataCalcul> calculTable;
+	private ArrayList<Calcul> calculTable;
 	private ArrayList<SavePendingCalcul> saveTable;
 	
 	public DataBase(){
 		this.userTable = new ArrayList<User>();
-		this.calculTable = new ArrayList<DataCalcul>();
+		this.calculTable = new ArrayList<Calcul>();
 		this.saveTable = new ArrayList<SavePendingCalcul>();
 	}
 	
@@ -49,17 +51,17 @@ public class DataBase {
 		return this.userTable.remove(user);
 	}
 	
-	public void addCalcul(DataCalcul newCalcul){
+	public void addCalcul(Calcul newCalcul){
 		if(!isCalculExist(newCalcul)){
 			this.calculTable.add(newCalcul);
 		}
 	}
 	
-	public Boolean isCalculExist(DataCalcul calcul){
+	public Boolean isCalculExist(Calcul calcul){
 		return this.calculTable.contains(calcul);
 	}
 	
-	public Boolean deleteCalcul(DataCalcul calcul){
+	public Boolean deleteCalcul(Calcul calcul){
 		return this.calculTable.remove(calcul);
 	}
 	

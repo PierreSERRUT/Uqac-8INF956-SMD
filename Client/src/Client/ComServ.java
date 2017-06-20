@@ -17,6 +17,7 @@ import java.util.TimerTask;
 
 
 public class ComServ {
+	
 	private static int port = 2016;
     private static String address = "127.0.0.1";
     private Socket socket;
@@ -27,7 +28,6 @@ public class ComServ {
     private boolean isOver;
     private User user;
     
-	
 	/*
 	 * Attention aux exception : exit -2 ==> fait quitter le programme en cas d'erreur
 	 * manque boucle d'attente recep demande calcul

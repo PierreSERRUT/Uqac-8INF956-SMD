@@ -6,7 +6,7 @@ public class Calcul {
 
 	public HandleCalcul handleCalcul;
 		
-	private int idCalc;
+	private int idCalcul;
 	private int nbParties;
 	private int idClient;
 
@@ -32,7 +32,7 @@ public class Calcul {
 
 	public Calcul(int idClient, int idCalc, HandleCalcul hCalc, String calc) {
 
-		this.idCalc = idCalc;
+		this.idCalcul = idCalc;
 		this.idClient = idClient;
 		this.handleCalcul = hCalc;
 
@@ -88,8 +88,13 @@ public class Calcul {
 
 		return uCalcForm;
 	}
+	
 	public int GetUCalcId (int indiceUCalc) {
 		return this.listUnderCal.get(indiceUCalc).GetUCalcId();
+	}
+	
+	public int getIdCalcul() {
+		return idCalcul;
 	}
 
 	public void Decoupage() {

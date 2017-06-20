@@ -27,16 +27,16 @@ public class UnderCalcServ extends UnderCalc {
 
 		StringBuilder sb = new StringBuilder("");
 		
-		sb.append(this.val.get(0));
-		for(int i = 1;i<this.val.size() ;i++){
+		sb.append(this.value.get(0));
+		for(int i = 1;i<this.value.size() ;i++){
 			sb.append("#");
-			sb.append(this.val.get(i));
+			sb.append(this.value.get(i));
 		}
 		sb.append("&");
-		sb.append(this.ope.get(0));
-		for(int i = 1;i<this.ope.size() ;i++){
+		sb.append(this.operator.get(0));
+		for(int i = 1;i<this.operator.size() ;i++){
 			sb.append("#");
-			sb.append(this.ope.get(i));
+			sb.append(this.operator.get(i));
 		}
 		 
 		String s = sb.toString(); 
@@ -50,12 +50,12 @@ public class UnderCalcServ extends UnderCalc {
 	
 	public void SetData(ArrayList<Double> data) {
 		for (int i = 0; i < data.size(); i++)
-			this.val.add(data.get(i));
+			this.value.add(data.get(i));
 	}
 
 	public void SetOpe(ArrayList<Character> ope) {
 		for (int i = 0; i < ope.size(); i++)
-			this.ope.add(i,ope.get(i));
+			this.operator.add(i,ope.get(i));
 	}
 	
 	public int GetUCalcId () {

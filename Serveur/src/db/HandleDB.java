@@ -1,5 +1,7 @@
 package db;
 
+import calcul.Calcul;
+
 public class HandleDB {
 
 	private DataBase db;
@@ -35,7 +37,11 @@ public class HandleDB {
 		if(!db.isUserExist(newUser.pseudo, newUser.mail)){
 			tmp = db.addUser(newUser);
 		}
-		//La DB retourne l'id à l'utilisateur
+		//La DB doit attribuer l'id à l'utilisateur
 		return tmp.id;
-	}	
+	}
+	
+	public void addCalculOver(Calcul calcul){
+		db.addCalcul(calcul);
+	}
 }
