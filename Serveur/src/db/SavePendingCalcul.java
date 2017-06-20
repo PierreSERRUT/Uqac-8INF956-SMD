@@ -1,8 +1,8 @@
 package db;
 
 import java.util.ArrayList;
+import calcul.Calcul;
 
 public class SavePendingCalcul {
-
-	private ArrayList<DataCalcul> calculSave;
+	private ArrayList<Calcul> calculSave;
 }

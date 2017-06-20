@@ -23,7 +23,7 @@ public class UnderCalcServ extends UnderCalc {
 		this.flag = 0;
 	}
 	
-	public String PrepEnvoi() {
+	public String prepEnvoi() {
 
 		StringBuilder sb = new StringBuilder("");
 		
@@ -44,42 +44,42 @@ public class UnderCalcServ extends UnderCalc {
 		return s;
 	}
 	
-	public void SetUserId(int i) {
+	public void setUserId(int i) {
 		this.idUser=i;
 	}
 	
-	public void SetData(ArrayList<Double> data) {
+	public void setData(ArrayList<Double> data) {
 		for (int i = 0; i < data.size(); i++)
 			this.value.add(data.get(i));
 	}
 
-	public void SetOpe(ArrayList<Character> ope) {
+	public void setOpe(ArrayList<Character> ope) {
 		for (int i = 0; i < ope.size(); i++)
 			this.operator.add(i,ope.get(i));
 	}
 	
-	public int GetUCalcId () {
+	public int getUCalcId () {
 		return this.idUnderCalc;
 	}
 	
 	
-	public void SetResUCalc (double res) {
+	public void setResUCalc (double res) {
 		this.res=res;
 	}
 	
-	public double GetRes()
+	public double getRes()
 	{
 		return this.res;
 	}
 	
-	public void SetFlagEtat(int f) {
+	public void setFlagEtat(int f) {
 		if ((f >= 0) && (f < 4))
 			this.flag = f;
 		else
 			this.flag = 0;
 	}
 
-	public void SetLastTimeUser() {
+	public void setLastTimeUser() {
 		// a faire
 
 	}

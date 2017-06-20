@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import calcul.CalculList;
 import calcul.HandleCalcul;
 import db.HandleDB;
 import db.User;
@@ -61,11 +62,8 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 			case "pingSsCalcul":
 				pingSsCalcul();
 				break;
-			case "ping!!":
-				System.out.println(commande);
-				break;
-			case "rdy":
-				System.out.println(commande);
+			case "resUnderCalcul":
+				receptionSsCalcul();
 				break;
 			default:
 				break;
@@ -242,11 +240,18 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 		 *	envoyer vers HandleCalcul via calcul
 		 */
 		int userid;
-		String repSsCalcul;
+		int idCalcul;
+		int idUnderCalcul;
+		Double repSsCalcul;
 
 		try{
 			userid = din.readInt();
-			repSsCalcul = din.readUTF();
+			idCalcul = din.readInt();
+			idUnderCalcul = din.readInt();
+			repSsCalcul = din.readDouble();
+			
+			CalculList.getInstance().addResUnderCalcul(idCalcul, idUnderCalcul, repSsCalcul);
+			
 			
 		} catch (IOException e){
 
@@ -274,6 +279,27 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 
 		}
 	}
+	
+	public void sendResCalcul(int idCalcul, Double res){
+		//Envoyer le ss calcul
+		/*
+		 * demander si possible calcul
+		 * réponse ==> oui, j'envoi
+		 * ==> non, retourner erreur
+		 */
+		try{
+			dout.writeUTF("ResCalcul");
+			String rep =  din.readUTF();
+			if (rep.contentEquals("dispo")){
+				dout.writeInt(idCalcul);
+				dout.writeDouble(res);
+				//return true 
+			}
+			else{
+				//return false
+			}
+		} catch (IOException e){
 
-
+		}
+	}
 }

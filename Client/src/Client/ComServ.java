@@ -14,7 +14,8 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
+import calcul.UnderCalc;
+import calcul.UnderCalcMobile;
 
 public class ComServ {
 	
@@ -193,6 +194,8 @@ public class ComServ {
 		}
 	}
 	
+	
+	
 	private void sendPingConnect(int userid){
 		try {
 			dout.writeUTF("pingConnect");
@@ -220,7 +223,15 @@ public class ComServ {
 		}
 	}
 	
-	private String recepSsCalcul(){
+	// ici faut bosser sur le calc
+	private Double resUnderCalcul(String underCalc){
+		
+		UnderCalcMobile calcul = new UnderCalcMobile();
+		calcul.SetMessRecu(underCalc);
+		calcul.RecupUCalc();
+		Double res = calcul.CalcUnderCalc();
+		return res;
+		/*
 		String ssCalc ="";
 		try {
 			ssCalc += din.readUTF();
@@ -229,6 +240,24 @@ public class ComServ {
 			System.exit(-2);
 		}
 		return ssCalc;
+		*/
+	}
+	
+	private void sendResCalcul(UnderCalc underCalcul){
+		try {			
+			dout.writeUTF("resUnderCalcul");
+			dout.writeInt(user.id);
+			dout.writeInt(underCalcul.getIdCalc());
+			dout.writeInt(underCalcul.getIdUnderCalc());
+			dout.writeDouble(underCalcul.getRes());
+			
+			//Read the server response
+			//String rep = din.readUTF();
+			// System.out.println(rep);
+		} catch (IOException e) {
+			System.out.println("Error : cannot send calcul.");
+			System.exit(-2);
+		}
 	}
 	
 	private void DisconnectFromServer(){

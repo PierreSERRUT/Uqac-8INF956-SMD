@@ -34,6 +34,10 @@ public class CalculList {
 		this.listCurrentCalc.put(calcul.getIdCalcul(), calcul);
 	}
 	
+	public void addResUnderCalcul(int idCalcul, int idUnderCalcul, Double res){
+		this.listCurrentCalc.get(idCalcul).setUndRes(idUnderCalcul, res);
+	}
+	
 	public void calculOver(int calculId){
 		HandleDB.getInstance().addCalculOver(listCurrentCalc.get(calculId));
 	}

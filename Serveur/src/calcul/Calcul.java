@@ -45,20 +45,20 @@ public class Calcul {
 		this.listOpe = new ArrayList<Character>(1);
 		this.listUndRes = new ArrayList<Double>(this.nbParties);
 
-		this.SetData(calc);
+		this.setData(calc);
 		this.matVal = new double[this.nbParties][this.listVal.size() / this.nbParties + 1];
 		this.matOpe = new char[this.nbParties + 1][this.listVal.size() / this.nbParties + 1];
 	}
 
-	public void SetListVal(int indice, double val) {
+	public void setListVal(int indice, double val) {
 		this.listVal.add(indice, val);
 	}
 
-	public void SetListOpe(int indice, char ope) {
+	public void setListOpe(int indice, char ope) {
 		this.listOpe.add(indice, ope);
 	}
 
-	public void SetData(String str) {
+	public void setData(String str) {
 
 		int j = 0, indiceOpe = 0;
 		String tmp;
@@ -75,29 +75,29 @@ public class Calcul {
 				this.listVal.add(Double.parseDouble(tmp));
 				j = 0;
 				if (str.charAt(i) != '$') {
-					SetListOpe(indiceOpe, str.charAt(i));
+					setListOpe(indiceOpe, str.charAt(i));
 					indiceOpe++;
 				}
 			}
 		}
 	}
 
-	public String GetUCalForm(int indiceUCalc) {
+	public String getUCalForm(int indiceUCalc) {
 		String uCalcForm;
-		uCalcForm = this.listUnderCal.get(indiceUCalc).PrepEnvoi();
+		uCalcForm = this.listUnderCal.get(indiceUCalc).prepEnvoi();
 
 		return uCalcForm;
 	}
 	
-	public int GetUCalcId (int indiceUCalc) {
-		return this.listUnderCal.get(indiceUCalc).GetUCalcId();
+	public int getUCalcId (int indiceUCalc) {
+		return this.listUnderCal.get(indiceUCalc).getUCalcId();
 	}
 	
 	public int getIdCalcul() {
 		return idCalcul;
 	}
 
-	public void Decoupage() {
+	public void decoupage() {
 		int taillePartVal = this.listVal.size() / this.nbParties;
 		int restePartVal = this.listVal.size() % this.nbParties;
 		// System.out.println("taille : " + taillePartVal);
@@ -153,11 +153,11 @@ public class Calcul {
 
 	}
 
-	public void FragmentationCalcul() {
+	public void fragmentationCalcul() {
 		for (int i = 0; i < this.nbParties; i++) {
 			
 			// ID du SsCalcul = 10 + indice du ssCalc
-			UnderCalcServ undCalcTmp = new UnderCalcServ(10+i,10+i,this.GetDataParties(i),this.GetOpeParties(i));
+			UnderCalcServ undCalcTmp = new UnderCalcServ(10+i,10+i,this.getDataParties(i),this.getOpeParties(i));
 			//undCalcTmp.SetData(this.GetDataParties(i));
 			//undCalcTmp.SetOpe(this.GetOpeParties(i));
 			this.listUnderCal.add(i, undCalcTmp);
@@ -171,21 +171,23 @@ public class Calcul {
 		}
 	}
 
-	public int GetNbParties() {
+	public int getNbParties() {
 		return nbParties;
 	}
 
-	public void GetUndRes() {
+	public void getUndRes() {
 		for (int i = 0; i < this.nbParties; i++)
-			this.listUndRes.add(i, this.listUnderCal.get(i).GetRes());
+			this.listUndRes.add(i, this.listUnderCal.get(i).getRes());
 	}
 
-	public void SetUndRes(int indiceUCalc, int res) {
-		this.listUnderCal.get(indiceUCalc).SetResUCalc(res);
+	public void setUndRes(int indiceUCalc, Double res) {
+		this.listUnderCal.get(indiceUCalc).setResUCalc(res);
+		this.incrementAchievment();
+		
 	}
 	
-	public double CalcResFinal() {
-		this.GetUndRes();
+	public double calcResFinal() {
+		this.getUndRes();
 
 		this.res = this.listUndRes.get(0);
 		int m = this.listUndRes.size();
@@ -214,21 +216,21 @@ public class Calcul {
 		return res;
 	}
 
-	public ArrayList<Double> GetDataParties(int numParties) {
+	public ArrayList<Double> getDataParties(int numParties) {
 		ArrayList<Double> data = new ArrayList<Double>(matVal[numParties].length);
 		for (int i = 0; i < matVal[numParties].length; i++)
 			data.add(i, matVal[numParties][i]);
 		return data;
 	}
 
-	public ArrayList<Character> GetOpeParties(int numParties) {
+	public ArrayList<Character> getOpeParties(int numParties) {
 		ArrayList<Character> ope = new ArrayList<Character>(matOpe[numParties].length);
 		for (int i = 0; i < matOpe[numParties].length; i++)
 			ope.add(i, matOpe[numParties][i]);
 		return ope;
 	}
 
-	public void AffMat() {
+	public void affMat() {
 		System.out.println("Matrice des Valeurs:");
 		for (int i = 0; i < matVal.length; i++) {
 			System.out.print("(");
@@ -246,18 +248,25 @@ public class Calcul {
 		}
 	}
 
-	public void AffListeVal() {
+	public void affListeVal() {
 		System.out.println("Liste des valeurs: ");
 		for (int i = 0; i < listVal.size(); i++)
 			System.out.print(listVal.get(i) + " ");
 		System.out.println();
 	}
 
-	public void AffListeOpe() {
+	public void affListeOpe() {
 		System.out.println("Liste des operateurs: ");
 		for (int i = 0; i < listOpe.size(); i++)
 			System.out.print(listOpe.get(i) + " ");
 		System.out.println();
+	}
+	
+	public void incrementAchievment(){
+		this.achievement ++;
+		if(this.achievement > this.listUnderCal.size()){
+			this.res = this.calcResFinal();
+		}
 	}
 
 }

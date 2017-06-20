@@ -26,7 +26,7 @@ public class HandleCalcul implements Runnable {
 		
 	}
 
-	public String RecuperationCalc(String str) {
+	public String recuperationCalc(String str) {
 
 		// Recuperation du calcul a partir du
 		// message transmis par le serveur
@@ -35,30 +35,29 @@ public class HandleCalcul implements Runnable {
 		return str;
 	}
 
-	public void MiseEnFormeDonnees() {
+	public void miseEnFormeDonnees() {
 		// calc.SetData(messageCalc);
-		this.calc.Decoupage();
-		this.calc.AffMat();
+		this.calc.decoupage();
+		this.calc.affMat();
 	}
 
-	public void FragCalcul() {
-		this.calc.FragmentationCalcul();
+	public void fragCalcul() {
+		this.calc.fragmentationCalcul();
 	}
 
-	public void EnvoiUnderCalc(int indUCalc) {
+	public void envoiUnderCalc(int indUCalc) {
 		// a faire
 		String message;
-		int UCalcId = this.calc.GetUCalcId(indUCalc);
-		message = this.calc.GetUCalForm(indUCalc);
+		int UCalcId = this.calc.getUCalcId(indUCalc);
+		message = this.calc.getUCalForm(indUCalc);
 		
 		/*
 		 * Envoi: idUcalc, calc
 		 * 
-		 */
-		
+		 */		
 	}
 
-	public void RecepUnderRes() {
+	public void recepUnderRes() {
 		//a faire
 		/* loop d'attente de tout les sous-résultats 
 		 * 
@@ -75,17 +74,16 @@ public class HandleCalcul implements Runnable {
 				i++;
 			}
 			 * 
-			 */
-			
+			 */			
 		}while(i<this.choixNbUser);
 	}
 
-	public void ResultFinal() {
+	public void resultFinal() {
 		// a faire
-		this.resultat = this.calc.CalcResFinal();
+		this.resultat = this.calc.calcResFinal();
 	}
 
-	public void TimeOutUCalc() {
+	public void timeOutUCalc() {
 
 	}
 
@@ -94,15 +92,15 @@ public class HandleCalcul implements Runnable {
 		// TODO Auto-generated method stub
 
 		this.calc = new Calcul(this.clientId, this.clientId, this, this.messageCalc);
-		this.choixNbUser = this.calc.GetNbParties();
+		this.choixNbUser = this.calc.getNbParties();
 		//this.calc.AffListeVal();
 		//this.calc.AffListeOpe();
-		MiseEnFormeDonnees();
-		FragCalcul();
+		miseEnFormeDonnees();
+		fragCalcul();
 		for (int i = 0; i < this.choixNbUser; i++) {
-			EnvoiUnderCalc(i);
+			envoiUnderCalc(i);
 		}
-		RecepUnderRes();
-		ResultFinal();
+		recepUnderRes();
+		resultFinal();
 	}
 }
