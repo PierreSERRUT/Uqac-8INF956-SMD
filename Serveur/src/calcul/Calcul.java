@@ -15,7 +15,7 @@ public class Calcul {
 	private int idClient;
 	private Boolean isOver;
 
-	private double res;
+	private double result;
 
 	private ArrayList<UnderCalcServ> listUnderCal;
 
@@ -34,6 +34,7 @@ public class Calcul {
 	// private char[] listOpe;
 
 	public Calcul() {
+		this.achievement = 0;
 		this.isOver = false;
 	}
 	
@@ -207,6 +208,10 @@ public class Calcul {
 		return nbParties;
 	}
 
+	public double getRes() {
+		return result;
+	}
+
 	public void getUndRes() {
 		for (int i = 0; i < this.nbParties; i++)
 			this.listUndRes.add(i, this.listUnderCal.get(i).getRes());
@@ -221,31 +226,31 @@ public class Calcul {
 	public double calcResFinal() {
 		this.getUndRes();
 
-		this.res = this.listUndRes.get(0);
+		this.result = this.listUndRes.get(0);
 		int m = this.listUndRes.size();
 
 		for (int i = 1; i < m; i++) {
 			switch (matOpe[m][i - 1]) {
 			case '+':
-				this.res += this.listUndRes.get(i);
+				this.result += this.listUndRes.get(i);
 				break;
 			case '-':
-				this.res -= this.listUndRes.get(i);
+				this.result -= this.listUndRes.get(i);
 				break;
 			case '*':
-				this.res *= this.listUndRes.get(i);
+				this.result *= this.listUndRes.get(i);
 				break;
 			case '/':
 				if (matOpe[m][i] == 0)
 					System.out.println("Division par zero: division non effectu�");
 				else
-					this.res *= this.listUndRes.get(i);
+					this.result *= this.listUndRes.get(i);
 				break;
 			default:
 				break;
 			}
 		}
-		return res;
+		return result;
 	}
 
 	public ArrayList<Double> getDataParties(int numParties) {
@@ -296,7 +301,7 @@ public class Calcul {
 	
 	public void incrementAchievment(){
 		this.achievement ++;
-		if(this.achievement > this.listUnderCal.size()){
+		if(this.achievement >= this.listUnderCal.size()){
 			this.setRes(this.calcResFinal());
 		}
 	}

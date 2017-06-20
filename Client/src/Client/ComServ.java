@@ -107,10 +107,7 @@ public class ComServ {
 	    		DisconnectFromServer();
 	    		;}
 	    };
-	    
 	    //new Thread(listen).start();
-	    
-
 	}
 	
 	private void connectToServer(){
@@ -194,8 +191,6 @@ public class ComServ {
 			System.exit(-2);
 		}
 	}
-	
-	
 	
 	private void sendPingConnect(int userid){
 		try {
