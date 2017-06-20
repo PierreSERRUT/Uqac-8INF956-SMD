@@ -104,7 +104,7 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 			System.out.println(userid+"\n"+mdp);
 			//Envois à la DB pour vérifier
 			User u = createUser(userid,mdp);
-			if(HandleDB.getInstance().connexion(u)){
+			if(HandleDB.getInstance().connection(u)){
 				Client client = createClient(userid);
 				ClientList.getInstance().addConnect(client);
 				dout.writeUTF("granted"); // confirmation ?
@@ -153,7 +153,7 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 			mdp = str[2];
 			//ajout dans la DB
 			User u = createUser(mdp,mail,pseudo);
-			int userid = HandleDB.getInstance().inscription(u);
+			int userid = HandleDB.getInstance().subscribe(u);
 			//connexion du client
 			Client client = createClient(userid);
 			ClientList.getInstance().addConnect(client);

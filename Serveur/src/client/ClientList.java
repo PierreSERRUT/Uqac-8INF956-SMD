@@ -79,13 +79,7 @@ public class ClientList {
 	private void cleanList(int idClient){
 		this.listClientDispo.remove(idClient);
 		this.listClientCo.remove(idClient);
-	}
-	
-	private void cleanList(int idClient){
-		this.listClientDispo.remove(idClient);
-		this.listClientCo.remove(idClient);
-	}
-	
+	}	
  	public Client findClient(int idClient){
 		Client tmp = this.listClientCo.get(idClient);
 		if(tmp == null){
