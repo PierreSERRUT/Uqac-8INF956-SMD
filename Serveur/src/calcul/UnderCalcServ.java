@@ -72,6 +72,10 @@ public class UnderCalcServ extends UnderCalc {
 		return this.res;
 	}
 	
+	public int getIdUser() {
+		return idUser;
+	}
+
 	public void setFlagEtat(int f) {
 		if ((f >= 0) && (f < 4))
 			this.flag = f;

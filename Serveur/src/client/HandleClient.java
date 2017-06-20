@@ -268,7 +268,7 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 		try{
 			dout.writeUTF("calculdemand");
 			String rep =  din.readUTF();
-			if (rep.contentEquals("dispo")){
+			if (rep.contentEquals("yes")){
 				dout.writeUTF(calcul);
 				//return true 
 			}

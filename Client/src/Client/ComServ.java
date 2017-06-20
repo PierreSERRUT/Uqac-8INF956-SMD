@@ -181,10 +181,11 @@ public class ComServ {
 		}
 	}
 	
-	private void sendReqCalcul(int userid){
+	private void sendReqCalcul(int userid, String calcul){
         try {
 			dout.writeUTF("reqCalcul");
 	        dout.writeInt(userid);
+	        dout.writeUTF(calcul);
 	        //Read the server response
 	        //String rep = din.readUTF();
 	       // System.out.println(rep);

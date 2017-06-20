@@ -1,6 +1,7 @@
 package calcul;
 
 import client.Client;
+import db.HandleDB;
 
 public class HandleCalcul implements Runnable {
 
@@ -45,21 +46,24 @@ public class HandleCalcul implements Runnable {
 		this.calc.fragmentationCalcul();
 	}
 
-	public void envoiUnderCalc(int indUCalc) {
-		// a faire
-		String message;
-		int UCalcId = this.calc.getUCalcId(indUCalc);
-		message = this.calc.getUCalForm(indUCalc);
+	public void envoiUnderCalc(int idUnderCalc) {
+		String calcul;
+		int UnderCalcId = this.calc.getUCalcId(idUnderCalc);
+		calcul = this.calc.getUCalForm(idUnderCalc);
+		
+		int userid = this.calc.getUserIdFromUnderCalcId(idUnderCalc);
+		Client client = this.calc.getClientFromUserId(userid);
+		client.handleClient.sendSsCalcul(calcul);
 		
 		/*
 		 * Envoi: idUcalc, calc
-		 * 
+		 * calcul --> listUnderCalc --> getUserId --> listClient --> rÃ©cupÃ©rer le client --> handleclient --> sendSsCalcul(calcul)
 		 */		
 	}
 
 	public void recepUnderRes() {
 		//a faire
-		/* loop d'attente de tout les sous-résultats 
+		/* loop d'attente de tout les sous-rï¿½sultats 
 		 * 
 		 *  a partir de userid je 
 		 */
@@ -67,7 +71,7 @@ public class HandleCalcul implements Runnable {
 		do{
 			//recep ss res
 			/*
-			 * Déterminer indice SsCalc par l'id 
+			 * Dï¿½terminer indice SsCalc par l'id 
 			 * pour l'instant: ID du SsCalcul = 10 + indice du ssCalc
 			if(reception) {	
 				this.calc.SetUndRes(indiceSsCalc,res);
@@ -102,5 +106,8 @@ public class HandleCalcul implements Runnable {
 		}
 		recepUnderRes();
 		resultFinal();
+		while(!calc.getIsOver()){//On attend que le calcul soit finit
+		}
+		HandleDB.getInstance().addCalculOver(this.calc);
 	}
 }

@@ -1,6 +1,10 @@
 package calcul;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
+
+import client.Client;
+import client.ClientList;
 
 public class Calcul {
 
@@ -9,6 +13,7 @@ public class Calcul {
 	private int idCalcul;
 	private int nbParties;
 	private int idClient;
+	private Boolean isOver;
 
 	private double res;
 
@@ -22,12 +27,38 @@ public class Calcul {
 	private ArrayList<Double> listVal;
 	private ArrayList<Character> listOpe;
 	private ArrayList<Double> listUndRes;
+	private ArrayList<Client> listClient;
+
 
 	// private double[] listVal;
 	// private char[] listOpe;
 
 	public Calcul() {
+		this.isOver = false;
+	}
+	
+	public Boolean getIsOver() {
+		return isOver;
+	}
 
+	public int getUserIdFromUnderCalcId(int underCalcId){
+		int userid = -1;
+		try{
+			userid = this.listUnderCal.stream().filter(u -> u.getUCalcId() == underCalcId).findFirst().get().getIdUser();
+		} catch(NoSuchElementException e){
+			e.printStackTrace();
+		}
+		return userid;
+	}
+	
+	public Client getClientFromUserId(int userid){
+		Client client = null;
+		try{
+			client = this.listClient.stream().filter(c -> c.getUserid() == userid).findFirst().get();
+		}catch(NoSuchElementException e){
+			e.printStackTrace();
+		}
+		return client;
 	}
 
 	public Calcul(int idClient, int idCalc, HandleCalcul hCalc, String calc) {
@@ -167,7 +198,8 @@ public class Calcul {
 			 *  set le userid dans les ssCalc:
 			 *  this.listUnderCal.get(i).SetUserId(userid);
 			 */
-			
+			listClient = ClientList.getInstance().getClientForCalcul(this.nbParties);
+			this.listUnderCal.get(i).setUserId(listClient.get(i).getUserid());
 		}
 	}
 
@@ -205,7 +237,7 @@ public class Calcul {
 				break;
 			case '/':
 				if (matOpe[m][i] == 0)
-					System.out.println("Division par zero: division non effectuÈ");
+					System.out.println("Division par zero: division non effectuÔøΩ");
 				else
 					this.res *= this.listUndRes.get(i);
 				break;
@@ -265,8 +297,22 @@ public class Calcul {
 	public void incrementAchievment(){
 		this.achievement ++;
 		if(this.achievement > this.listUnderCal.size()){
-			this.res = this.calcResFinal();
+			this.setRes(this.calcResFinal());
 		}
+	}
+
+	public double getRes() {
+		return res;
+	}
+	
+	private void setRes(double res) {
+		//Stocker le r√©sultat final
+		//L'envoyer au HandleClient pour le communiquer au client
+		//Stocker le calcul dans la DB
+		this.res = res;
+		this.isOver = true;
+		//handleCalcul;
+		ClientList.getInstance().findClient(idClient).handleClient.sendResCalcul(idCalcul, res);
 	}
 
 }
