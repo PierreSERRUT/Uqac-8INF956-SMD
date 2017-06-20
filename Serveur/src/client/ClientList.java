@@ -20,7 +20,7 @@ public class ClientList {
 		this.listClientDispo = new LinkedHashMap<Integer, Client>();
 	} 
 	
-	// Méthode statique qui sert de pseudo-constructeur (utilisation du mot clef "synchronized" pour le multithread).
+	// Mï¿½thode statique qui sert de pseudo-constructeur (utilisation du mot clef "synchronized" pour le multithread).
     public static synchronized ClientList getInstance(){
 		if(uniqueClientList == null){
 			uniqueClientList = new ClientList();
@@ -29,7 +29,7 @@ public class ClientList {
     }
 	
 	public synchronized void  addConnect(Client client){
-		decoClient(client.getUserid());
+		cleanList(client.getUserid());
 		client.setLastCo(new Date());
 		
 		this.listClientCo.put(client.getUserid(), client);
@@ -38,7 +38,7 @@ public class ClientList {
 		updateLongDispo();
 	}
 	
-	// Permet de passer des client de Co à Dispo
+	// Permet de passer des client de Co ï¿½ Dispo
 	private void updateCoDispo(){
 		if(this.listClientCo.size() > this.nbClientCoMax){
 			int nbTransition = this.listClientCo.size() - this.nbClientCoMax;			
@@ -54,7 +54,7 @@ public class ClientList {
 		}		
 	}
 	
-	// Permet de "clean" la liste dispo si les clients n'ont pas pingé depuis 30 min
+	// Permet de "clean" la liste dispo si les clients n'ont pas pingï¿½ depuis 30 min
 	private void updateLongDispo(){
 		Set<Entry<Integer, Client>> setClientDispo = this.listClientDispo.entrySet();
 		Iterator<Entry<Integer, Client>> iteratorClientDispo = setClientDispo.iterator();
@@ -72,6 +72,11 @@ public class ClientList {
 	}
 	
 	public synchronized void decoClient(int idClient){
+		findClient(idClient).handleClient.setIsOver(true);
+		cleanList(idClient);
+	}
+	
+	private void cleanList(int idClient){
 		this.listClientDispo.remove(idClient);
 		this.listClientCo.remove(idClient);
 	}

@@ -19,6 +19,7 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 	private OutputStream serverOutput;
 	private DataInputStream din;
 	private DataOutputStream dout;
+	private Boolean isOver = false;
 
 	public HandleClient(Socket clientSock){
 		this.clientSocket = clientSock;
@@ -27,40 +28,42 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 	@Override
 	public void run() {
 		System.out.println("New client");
-		String commande = "";
-		try{
-			clientInput = clientSocket.getInputStream();
-			serverOutput = clientSocket.getOutputStream();
-			din = new DataInputStream(clientInput);
-			dout = new DataOutputStream(serverOutput);
+		while(!isOver){
+			String commande = "";
+			try{
+				clientInput = clientSocket.getInputStream();
+				serverOutput = clientSocket.getOutputStream();
+				din = new DataInputStream(clientInput);
+				dout = new DataOutputStream(serverOutput);
 
-			commande = din.readUTF();
-			System.out.println(commande);
-		}
-		catch (IOException e){
-		}
+				commande = din.readUTF();
+				System.out.println(commande);
+			}
+			catch (IOException e){
+			}
 
-		switch(commande){
-		case "connexion":
-			connexion();
-			break;
-		case "deconnexion":
-			deconnexion();
-			break;
-		case "inscription":
-			inscription();
-			break;
-		case "reqCalcul":
-			reqCalcul();
-			break;
-		case "pingConnect":
-			pingConnect();
-			break;
-		case "pingSsCalcul":
-			pingSsCalcul();
-			break;
-		default:
-			break;
+			switch(commande){
+			case "connexion":
+				connexion();
+				break;
+			case "deconnexion":
+				deconnexion();
+				break;
+			case "inscription":
+				inscription();
+				break;
+			case "reqCalcul":
+				reqCalcul();
+				break;
+			case "pingConnect":
+				pingConnect();
+				break;
+			case "pingSsCalcul":
+				pingSsCalcul();
+				break;
+			default:
+				break;
+			}
 		}
 	}
 
@@ -101,14 +104,14 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 			System.out.println(userid+"\n"+mdp);
 			//Envois à la DB pour vérifier
 			User u = createUser(userid,mdp);
-			/*if (HandleDB.connexion(u)){ //appel static ?
+			if(HandleDB.getInstance().connexion(u)){
 				Client client = createClient(userid);
-				ClientList.addConnect(client); //appel static ?
+				ClientList.getInstance().addConnect(client);
 				dout.writeUTF("granted"); // confirmation ?
 			}
 			else{
 			dout.writeUTF("denied"); //rejet
-			}*/
+			}
 		
 		} catch (IOException e){
 		}
@@ -123,16 +126,16 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 
 		try{
 			userid = din.readInt();
-			//Récuperer le client
-			/*Client c = ClientList.findClient(userid); //appel static ?
-			if(c!=null){
-			//ClientList.decoClient(client) // appel static ?		
-			}
+			ClientList.getInstance().decoClient(userid);
 			dout.writeUTF("deconnected"); 
-			*/
+			this.isOver=true;
 		} catch (IOException e){
 
 		}
+	}
+
+	public void setIsOver(Boolean isOver) {
+		this.isOver = isOver;
 	}
 
 	public void inscription(){
@@ -149,15 +152,14 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 			mail = str[1];
 			mdp = str[2];
 			//ajout dans la DB
-			/*User u = createUser(mdp,mail,pseudo);
-			int userid = HandleDB.inscription(u); //appel static ?
+			User u = createUser(mdp,mail,pseudo);
+			int userid = HandleDB.getInstance().inscription(u);
 			//connexion du client
 			Client client = createClient(userid);
-			ClientList.addConnect(client); //appel static ?
+			ClientList.getInstance().addConnect(client);
 			
-			//renvoi de son userid à l'utilisateur*/
+			//renvoi de son userid à l'utilisateur
 			System.out.println(mail+"\n"+pseudo+"\n"+mdp); // vérif
-			int userid = 100; // A supprimer
 			dout.writeInt(userid);
 		} catch (IOException e){
 
@@ -179,7 +181,7 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 			Client client = ClientList.getInstance().findClient(userid);
 			
 			HandleCalcul handleCalcul = new HandleCalcul(client, calcul);
-			// attention au Garbage collector, du plus le handle va se cr�e et ne rien faire !
+			// attention au Garbage collector, du plus le handle va se cr�e et ne rien faire !
 			
 		} catch (IOException e){
 
@@ -195,20 +197,20 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 		try{
 			userid = din.readInt();	
 			//Récupérer le client
-			/*Client c = ClientList.findClient(userid); //appel static ?
+			Client c = ClientList.getInstance().findClient(userid); 
 			if (c!=null){
 				if(c.handleClient != this){
 					System.out.println("! Different HandleClient !");
 					c.handleClient = this;
 				}
 				//Maj ClientList
-				ClientList.addConnect(c); //appel static ?
+				ClientList.getInstance().addConnect(c);
 			}
 			else {
 				//Maj ClientList
 				c = createClient(userid);
-				ClientList.addConnect(c); //appel static ?
-			}*/
+				ClientList.getInstance().addConnect(c);
+			}
 		} catch (IOException e){
 		}
 

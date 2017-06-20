@@ -25,7 +25,7 @@ public class HandleDB {
 	public boolean connexion(User user){
 		boolean ok = false;
 		User tmp = db.getUserById(user.id);
-		if(tmp != null && tmp.password == user.password){
+		if(tmp != null && tmp.password.contentEquals(user.password)){
 			ok = true;
 		}
 		return ok;
@@ -36,8 +36,7 @@ public class HandleDB {
 		if(!db.isUserExist(newUser.pseudo, newUser.mail)){
 			tmp = db.addUser(newUser);
 		}
-		//La DB doit attribuer l'id à l'utilisateur
+		//La DB retourne l'id à l'utilisateur
 		return tmp.id;
-		
 	}	
 }

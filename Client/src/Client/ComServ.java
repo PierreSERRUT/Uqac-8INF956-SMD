@@ -65,10 +65,20 @@ public class ComServ {
 			}
 		};
 	    Timer ping = new Timer();
-	    ping.scheduleAtFixedRate(pingDispo, new Date(), delay);
-
-		
+	    //ping.scheduleAtFixedRate(pingDispo, new Date(), delay);
+	    
+		sendInscription(user.pseudo,user.mail,user.password);
+		sendDeconnexion(user.id);
 		this.DisconnectFromServer();
+		
+		connectToServer();
+		sendConnexion(user.id,user.password);
+		sendDeconnexion(user.id);
+		this.DisconnectFromServer();
+		connectToServer();
+		sendPingConnect(user.id);
+		this.DisconnectFromServer();
+		
 	}
 	
 	private void connectToServer(){
@@ -100,6 +110,7 @@ public class ComServ {
 	        dout.writeInt(userid);
 			dout.writeUTF(mdp);
 			String rep = din.readUTF();
+			System.out.println(rep);
 			if (rep.contentEquals("granted")){
 				// confirmation ?
 			}
@@ -117,7 +128,6 @@ public class ComServ {
 			dout.writeUTF("deconnexion");
 	        dout.writeInt(userid);
 	        //Read the server response
-	        //String rep = din.readUTF();
 	        String rep = din.readUTF(); // Réponse serveur
 	        System.out.println(rep);
 		} catch (IOException e) {
@@ -132,9 +142,7 @@ public class ComServ {
 			dout.writeUTF("inscription");//pseudo,mail,mdp
 	        dout.writeUTF(pseudo+"§§§"+mail+"§§§"+mdp);
 	        //Read the server response
-	        //String rep = din.readUTF();
 	        user.id = din.readInt();
-	        System.out.println(user.id);
 		} catch (IOException e) {
 			System.out.println("Error : cannot subscribe.");
 			System.exit(-2);
