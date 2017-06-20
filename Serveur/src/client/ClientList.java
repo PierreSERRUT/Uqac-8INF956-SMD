@@ -76,7 +76,7 @@ public class ClientList {
 		this.listClientCo.remove(idClient);
 	}
 	
-	public synchronized Client findClient(int idClient){
+	public Client findClient(int idClient){
 		Client tmp = this.listClientCo.get(idClient);
 		if(tmp == null){
 			tmp = this.listClientDispo.get(idClient);
@@ -106,8 +106,7 @@ public class ClientList {
 		else{
 			iteratorCo = listClientCo.size();
 			iteratorDispo = nbClient - listClientCo.size();
-		}
-		
+		}	
 		for (int i = 0; i < iteratorCo; i++) {
 			Entry<Integer, Client> pairIdClient = iteratorClientCo.next();
 			listClient.add(pairIdClient.getValue());

@@ -6,7 +6,7 @@ public class Client {
 
 	public HandleClient handleClient;
 	private int userId;
-	private Date LastCo;
+	private Date lastCo;
 	
 	public Client(int id, HandleClient hc){
 		this.userId = id;
@@ -14,10 +14,10 @@ public class Client {
 	}
 	
 	public Date getLastCo() {
-		return LastCo;
+		return lastCo;
 	}
-	public void setLastCo(Date lastCo) {
-		LastCo = lastCo;
+	public void setLastCo(Date lastConnection) {
+		lastCo = lastConnection;
 	}
 	public int getUserid() {
 		return userId;

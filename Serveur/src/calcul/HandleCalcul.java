@@ -54,7 +54,6 @@ public class HandleCalcul implements Runnable {
 		/*
 		 * Envoi: idUcalc, calc
 		 * 
-		 * 
 		 */
 		
 	}

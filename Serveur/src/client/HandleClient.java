@@ -181,7 +181,6 @@ public class HandleClient implements Runnable {//manque boucle contrÃ´le run, at
 			HandleCalcul handleCalcul = new HandleCalcul(client, calcul);
 			// attention au Garbage collector, du plus le handle va se crée et ne rien faire !
 			
-			
 		} catch (IOException e){
 
 		}	
