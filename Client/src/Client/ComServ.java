@@ -53,32 +53,63 @@ public class ComServ {
 		*/
 		
 		this.connectToServer();
-		// Faire inscription
 		isOver = false;
-		int delay = 600000; // 600 000ms = 10 min
+		int delay = 60000; // 600 000ms = 10 min
 		TimerTask pingDispo = new TimerTask() {
 			
 			@Override
 			public void run() {
 				// Action
+				connectToServer();
+				System.out.println("ping");
+				try {
+					dout.writeUTF("ping!!");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				sendPingConnect(user.id);
+				DisconnectFromServer();
+				System.out.println("i'm done");
 			}
 		};
+		
 	    Timer ping = new Timer();
-	    //ping.scheduleAtFixedRate(pingDispo, new Date(), delay);
-	    
 		sendInscription(user.pseudo,user.mail,user.password);
 		sendDeconnexion(user.id);
 		this.DisconnectFromServer();
 		
 		connectToServer();
 		sendConnexion(user.id,user.password);
-		sendDeconnexion(user.id);
+	    sendDeconnexion(user.id);
 		this.DisconnectFromServer();
-		connectToServer();
-		sendPingConnect(user.id);
-		this.DisconnectFromServer();
-		
+	    //ping.scheduleAtFixedRate(pingDispo, new Date(), delay);	
+	    
+	    connectToServer();
+	    System.out.println("j'essaie de me co");
+	    sendConnexion(user.id,user.password);
+	    DisconnectFromServer();
+	    
+	    Runnable listen = new Runnable() {
+	    	
+	    	@Override
+	    	public void run() {
+	    		connectToServer();
+	    		try {
+	    			dout.writeUTF("rdy");
+	    			System.out.println("waiting…");
+	    			String mess = din.readUTF();
+	    			System.out.println(mess);
+	    		} catch (IOException e) {
+	    			e.printStackTrace();
+	    		}
+	    		DisconnectFromServer();
+	    		;}
+	    };
+	    
+	    //new Thread(listen).start();
+	    
+
 	}
 	
 	private void connectToServer(){
@@ -102,7 +133,6 @@ public class ComServ {
 			System.exit(-2);
 		}
 	}
-	
 	
 	private void sendConnexion(int userid, String mdp){
         try { //réponse serveur ?
@@ -132,6 +162,7 @@ public class ComServ {
 	        System.out.println(rep);
 		} catch (IOException e) {
 			System.out.println("Error : cannot deconnect.");
+			e.printStackTrace();
 			System.exit(-2);
 		}
 	}
@@ -171,6 +202,7 @@ public class ComServ {
 			// System.out.println(rep);
 		} catch (IOException e) {
 			System.out.println("Error : cannot ping connect.");
+			e.printStackTrace();
 			System.exit(-2);
 		}
 	}

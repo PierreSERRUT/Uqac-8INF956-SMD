@@ -61,6 +61,12 @@ public class HandleClient implements Runnable {//manque boucle contrôle run, at
 			case "pingSsCalcul":
 				pingSsCalcul();
 				break;
+			case "ping!!":
+				System.out.println(commande);
+				break;
+			case "rdy":
+				System.out.println(commande);
+				break;
 			default:
 				break;
 			}
