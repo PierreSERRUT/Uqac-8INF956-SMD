@@ -4,7 +4,6 @@ public class HandleDB {
 
 	private DataBase db;
 	private static HandleDB uniqueHandleDB;
-	// passer en static
 	
 	private HandleDB(){
 		db = new DataBase();
@@ -22,7 +21,7 @@ public class HandleDB {
     }
 	
 	
-	public boolean connexion(User user){
+	public boolean connection(User user){
 		boolean ok = false;
 		User tmp = db.getUserById(user.id);
 		if(tmp != null && tmp.password == user.password){
@@ -31,7 +30,7 @@ public class HandleDB {
 		return ok;
 	}
 	
-	public int inscription(User newUser){
+	public int subscribe(User newUser){
 		User tmp = new User();
 		if(!db.isUserExist(newUser.pseudo, newUser.mail)){
 			tmp = db.addUser(newUser);
