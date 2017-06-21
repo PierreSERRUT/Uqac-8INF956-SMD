@@ -148,7 +148,7 @@ public class ComServ {
 				ping.scheduleAtFixedRate(pingDispo, new Date(), delay);	
 			break;
 			case(3):
-				String calcul = "1+2+3+4+5+6";
+				String calcul = "1+2+3+4+5+6$";
 				sendReqCalcul(user.id, calcul);
 				thResult.start();
 			break;

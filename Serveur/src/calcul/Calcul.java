@@ -35,6 +35,7 @@ public class Calcul {
 
 	public Calcul() {
 		this.isOver = false;
+		this.nbParties = 2;
 	}
 	
 	public Boolean getIsOver() {
@@ -185,10 +186,13 @@ public class Calcul {
 	}
 
 	public void fragmentationCalcul() {
+		listClient = ClientList.getInstance().getClientForCalcul(this.nbParties);
 		for (int i = 0; i < this.nbParties; i++) {
 			
+			
+			
 			// ID du SsCalcul = 10 + indice du ssCalc
-			UnderCalcServ undCalcTmp = new UnderCalcServ(10+i,10+i,this.getDataParties(i),this.getOpeParties(i));
+			UnderCalcServ undCalcTmp = new UnderCalcServ(listClient.get(i).getUserid(),i,this.getDataParties(i),this.getOpeParties(i));
 			//undCalcTmp.SetData(this.GetDataParties(i));
 			//undCalcTmp.SetOpe(this.GetOpeParties(i));
 			this.listUnderCal.add(i, undCalcTmp);
@@ -198,8 +202,10 @@ public class Calcul {
 			 *  set le userid dans les ssCalc:
 			 *  this.listUnderCal.get(i).SetUserId(userid);
 			 */
-			listClient = ClientList.getInstance().getClientForCalcul(this.nbParties);
-			this.listUnderCal.get(i).setUserId(listClient.get(i).getUserid());
+			
+			//System.out.println("Test : " + listClient.size());
+			//this.listUnderCal.get(i).setUserId(listClient.get(i).getUserid());
+			
 		}
 	}
 

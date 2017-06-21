@@ -37,7 +37,7 @@ public class ClientList {
 			for (int i = 0; i < nbTransition; i++) {
 				Entry<Integer, Client> pairIdClient = iteratorClientCo.next();
 				this.listClientDispo.put(pairIdClient.getKey(), pairIdClient.getValue());
-				this.listClientCo.remove(pairIdClient.getKey());
+				//this.listClientCo.remove(pairIdClient.getKey());;				iteratorClientCo.remove();				
 			}
 		}		
 	}
@@ -49,7 +49,7 @@ public class ClientList {
 			Entry<Integer, Client> pairIdClient = iteratorClientDispo.next();
 			long dateNow = new Date().getTime();					
 			if(pairIdClient.getValue().getLastCo().getTime() - dateNow > 1800000 ){ // 1000 = 1s / 60 000 = 1min / 1 800 000 = 30min
-				this.listClientDispo.remove(pairIdClient.getKey());
+				//this.listClientDispo.remove(pairIdClient.getKey());				iteratorClientDispo.remove();
 			}
 			else{
 				break;
@@ -92,14 +92,14 @@ public class ClientList {
 			iteratorDispo = nbClient - listClientCo.size();
 		}	
 		for (int i = 0; i < iteratorCo; i++) {
-			Entry<Integer, Client> pairIdClient = iteratorClientCo.next();
+			Entry<Integer, Client> pairIdClient = iteratorClientCo.next(); ////
 			listClient.add(pairIdClient.getValue());
-			this.listClientCo.remove(pairIdClient.getKey());
+			//this.listClientCo.remove(pairIdClient.getKey());			iteratorClientCo.remove();
 		}
 		for (int i = 0; i < iteratorDispo; i++) {
 			Entry<Integer, Client> pairIdClient = iteratorClientDispo.next();
 			listClient.add(pairIdClient.getValue());
-			this.listClientCo.remove(pairIdClient.getKey());
+			//this.listClientDispo.remove(pairIdClient.getKey());			iteratorClientDispo.remove();
 		}	
 		return listClient;
 	}

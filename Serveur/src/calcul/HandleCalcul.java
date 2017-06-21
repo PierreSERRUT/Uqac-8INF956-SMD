@@ -49,12 +49,12 @@ public class HandleCalcul implements Runnable {
 
 	public void envoiUnderCalc(int idUnderCalc) {
 		String calcul;
-		int UnderCalcId = this.calc.getUCalcId(idUnderCalc);
+		//int UnderCalcId = this.calc.getUCalcId(idUnderCalc);
 		calcul = this.calc.getUCalForm(idUnderCalc);
 		
 		int userid = this.calc.getUserIdFromUnderCalcId(idUnderCalc);
 		Client client = this.calc.getClientFromUserId(userid);
-		client.handleClient.sendSsCalcul(calcul);
+		client.handleClient.sendSsCalcul(calcul, idUnderCalc);
 		
 		/*
 		 * Envoi: idUcalc, calc
