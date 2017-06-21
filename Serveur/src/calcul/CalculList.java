@@ -35,6 +35,9 @@ public class CalculList {
 	}
 	
 	public void addResUnderCalcul(int idCalcul, int idUnderCalcul, Double res){
+		System.out.println("add res  idCalcul : "+ idCalcul + " idUnderCalcul : "+ idUnderCalcul + " repSsCalcul : "+res );
+		System.out.println(listCurrentCalc.size());
+		System.out.println("get"+listCurrentCalc.get(idCalcul));
 		this.listCurrentCalc.get(idCalcul).setUndRes(idUnderCalcul, res);
 	}
 	

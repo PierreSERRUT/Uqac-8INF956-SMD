@@ -47,7 +47,7 @@ public class HandleCalcul implements Runnable {
 		this.calc.fragmentationCalcul();
 	}
 
-	public void envoiUnderCalc(int idUnderCalc) {
+	public void envoiUnderCalc(int idCalcul, int idUnderCalc) {
 		String calcul;
 		//int UnderCalcId = this.calc.getUCalcId(idUnderCalc);
 		calcul = this.calc.getUCalForm(idUnderCalc);
@@ -56,7 +56,7 @@ public class HandleCalcul implements Runnable {
 		System.out.println("userID " + userid);
 		Client client = this.calc.getClientFromUserId(userid);
 		
-		client.handleClient.sendSsCalcul(calcul, idUnderCalc);
+		client.handleClient.sendSsCalcul(idCalcul, calcul, idUnderCalc);
 		System.out.println("Client " + client.getUserid());
 		/*
 		 * Envoi: idUcalc, calc
@@ -86,8 +86,7 @@ public class HandleCalcul implements Runnable {
 	}
 
 	public void resultFinal() {
-		// a faire
-		this.resultat = this.calc.calcResFinal();
+		this.resultat = this.calc.getRes();
 	}
 
 	public void timeOutUCalc() {
@@ -104,15 +103,20 @@ public class HandleCalcul implements Runnable {
 		//this.calc.AffListeOpe();
 		miseEnFormeDonnees();
 		fragCalcul();
+		CalculList.getInstance().addCalcul(this.calc);
 		for (UnderCalcServ underCalc : this.calc.getListUnderCal()) {
 			System.out.println("Test " + underCalc.idUnderCalc);
-			envoiUnderCalc(underCalc.idUnderCalc);
+			envoiUnderCalc(calc.getIdCalcul(),underCalc.idUnderCalc);
 		}
 		System.out.println("Pb");
-		recepUnderRes();
-		resultFinal();
+		//recepUnderRes();
+		
 		while(!calc.getIsOver()){//On attend que le calcul soit finit
 		}
+		System.out.println("j'ai tous les sous calculs");
+		resultFinal();
+		System.out.println("résultat final : "+ this.resultat);
+		this.client.handleClient.sendResCalcul(this.calc.getIdCalcul(), this.resultat);
 		HandleDB.getInstance().addCalculOver(this.calc);
 	}
 }

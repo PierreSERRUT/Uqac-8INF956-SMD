@@ -9,7 +9,7 @@ public class UnderCalcMobile extends UnderCalc {
 
 	public UnderCalcMobile() {
 		super();
-		this.messRecu = new String();
+		//this.messRecu = new String();
 	}
 	
 	public UnderCalcMobile(int id, ArrayList<Double> data, ArrayList<Character> ope) {
@@ -47,7 +47,7 @@ public class UnderCalcMobile extends UnderCalc {
 		}
 	}
 	
-	public double CalcUnderCalc() {
+	public Double CalcUnderCalc() {
 		this.res = this.value.get(0);
 		int m = this.value.size();
 

@@ -28,6 +28,12 @@ public abstract class UnderCalc {
 		this.res = 0;
 	}
 	
+	public void setIdUnderCalc(int idUnderCalc) {
+		this.idUnderCalc = idUnderCalc;
+	}
+	public void setIdCalc(int idCalc) {
+		this.idCalc = idCalc;
+	}
 	public int getIdUnderCalc() {
 		return idUnderCalc;
 	}

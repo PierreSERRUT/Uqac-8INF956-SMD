@@ -265,10 +265,13 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 		Double repSsCalcul;
 
 		try{
+			System.out.println("resultat sous calcul recu");
 			userid = din.readInt();
 			idCalcul = din.readInt();
 			idUnderCalcul = din.readInt();
 			repSsCalcul = din.readDouble();
+			
+			System.out.println("userid : " + userid + " idCalcul : "+ idCalcul + " idUnderCalcul : "+ idUnderCalcul + " repSsCalcul : "+repSsCalcul );
 			
 			CalculList.getInstance().addResUnderCalcul(idCalcul, idUnderCalcul, repSsCalcul);
 			
@@ -278,7 +281,7 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 		}
 	}
 
-	public void sendSsCalcul(String calcul, int underCalcId){
+	public void sendSsCalcul(int idCalc, String calcul, int underCalcId){
 		//Envoyer le ss calcul
 		/*
 		 * demander si possible calcul
@@ -286,16 +289,25 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 		 * ==> non, retourner erreur
 		 */
 		try{
+			System.out.println("Avant calculdemand");
 			dout.writeUTF("calculdemand");
-			String rep =  din.readUTF();
-			if (rep.contentEquals("yes")){
-				dout.writeInt(underCalcId);
-				dout.writeUTF(calcul);
+			//String rep =  din.readUTF();
+			//System.out.println("Yes ?" + rep);
+			//if (rep.contentEquals("yes")){
+			System.out.println("Avant idCalc");
+			dout.writeInt(idCalc);	
+			System.out.println("Avant underCalcId");
+			dout.writeInt(underCalcId);
+			System.out.println("Avant calcul : " + calcul);
+			dout.writeUTF(calcul);
+			dout.flush();
+			System.out.println("Apres calcul");
+
 				//return true
-			}
-			else{
+			//}
+			/*else{
 				//return false
-			}
+			}*/
 		} catch (IOException e){
 
 		}
@@ -309,8 +321,10 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 		 * ==> non, retourner erreur
 		 */
 		try{
+			System.out.println("Rescalcul envoy�");
 			dout.writeUTF("ResCalcul");
 			String rep =  din.readUTF();
+			System.out.println("rep : "+rep);
 			if (rep.contentEquals("dispo")){
 				dout.writeInt(idCalcul);
 				dout.writeDouble(res);
