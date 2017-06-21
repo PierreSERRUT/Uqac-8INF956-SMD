@@ -84,7 +84,7 @@ public class ComServ {
 		};
 	    Timer ping = new Timer();
 	    
-	    Runnable listen = new Runnable() {    	
+	    Runnable listenRequest = new Runnable() {    	
 	    	@Override
 	    	public void run() {
 				//Scanner scan = new Scanner(din);
@@ -100,8 +100,34 @@ public class ComServ {
 	    		}
 	    		;}
 	    };
-	    Thread th = new Thread(listen);
+	    Thread thRequest = new Thread(listenRequest);
 
+	    Runnable listenResult = new Runnable() {    	
+	    	Double result = -1.0;
+	    	int idCalc = -1;
+	    	@Override
+	    	public void run() {
+				//Scanner scan = new Scanner(din);
+	    		try {
+	    			System.out.println("Attente resultat calcul");
+	    			//if(scan.hasNext())System.out.println("HAS NEXT");
+	    			String message = din.readUTF();
+	    			if(message.contentEquals("ResCalcul")){
+	    				dout.writeUTF("dispo");
+	    				idCalc = din.read();
+		    			result = din.readDouble();
+		    			System.out.println("result = "+result);
+	    			}
+	    			//System.out.println(din.readUTF());
+	    			//System.out.println(scan.next());
+	    			//scan.close();
+	    		} catch (NoSuchElementException | IOException e) {
+	    			//System.out.println("Je ferme le scan din");
+	    			//scan.close();
+	    		}
+	    		;}
+	    };
+	    Thread thResult = new Thread(listenResult);
 		Boolean isOver = false;
 		/*th.start();
 		ping.scheduleAtFixedRate(pingDispo, new Date(), delay);	
@@ -118,18 +144,20 @@ public class ComServ {
 			break;
 			case(2):
 				sendConnexion(user.id,user.password);
-			th.start();
+			thRequest.start();
 			ping.scheduleAtFixedRate(pingDispo, new Date(), delay);	
 			break;
 			case(3):
 				String calcul = "1+2+3+4+5+6";
 			sendReqCalcul(user.id, calcul);
+			thResult.start();
 			break;
 			case(4):
 			ping.cancel();
 			ping.purge();
 			sendDeconnexion(user.id);
-			th.interrupt();
+			thResult.interrupt();
+			thRequest.interrupt();
 				break;
 			case(5):
 				menu.close();
