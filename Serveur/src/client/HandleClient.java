@@ -29,7 +29,7 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 
 	@Override
 	public void run() {
-		System.out.println("New client");
+		System.out.println("Nouveau client connecte");
 		while(!isOver){
 			String commande = "";
 			try{
@@ -38,7 +38,7 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 				din = new DataInputStream(clientInput);
 				dout = new DataOutputStream(serverOutput);
 				commande = din.readUTF();
-				System.out.println(commande);
+				System.out.println("Commande recu : " +commande);
 			}
 			catch (IOException e){
 			}
@@ -66,7 +66,7 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 				receptionSsCalcul();
 				break;
 			case "pingpong":
-				System.out.println("pingpong");
+				//System.out.println("pingpong");
 				break;
 			case "testscan":
 				try {
@@ -74,7 +74,7 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				System.out.println("J'ai répondu");
+				//System.out.println("J'ai repondu");
 			default:
 				break;
 			}
@@ -122,7 +122,7 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 		try{
 			userid = din.readInt();
 			mdp = din.readUTF();
-			System.out.println(userid+"\n"+mdp);
+			System.out.println("Informations connection : \nuL'Id de l'utilisateur : " + userid +" Mot de passe : " + mdp);
 			//Envois à la DB pour vérifier
 			User u = createUser(userid,mdp);
 			if(HandleDB.getInstance().connection(u)){
@@ -181,7 +181,7 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 			ClientList.getInstance().addConnect(client);
 			
 			//renvoi de son userid à l'utilisateur
-			System.out.println(mail+"\n"+pseudo+"\n"+mdp); // vérif
+			System.out.println("Information inscription : \nMail : "+ mail+"\nPseudo : "+pseudo+"\nMot de passe : "+mdp); // vérif
 			dout.writeInt(userid);
 		} catch (IOException e){
 
@@ -199,7 +199,7 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 		try{
 			userid = din.readInt();
 			calcul = din.readUTF();
-			System.out.println(calcul);
+			System.out.println("Requete de calcul : " + calcul);
 
 			Client client = ClientList.getInstance().findClient(userid);
 			
@@ -224,7 +224,7 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 			Client c = ClientList.getInstance().findClient(userid); 
 			if (c!=null){
 				if(c.handleClient != this){
-					System.out.println("! Different HandleClient !");
+					System.out.println("Error : ! Different HandleClient !");
 					c.handleClient = this;
 				}
 				//Maj ClientList
@@ -265,13 +265,12 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 		Double repSsCalcul;
 
 		try{
-			System.out.println("resultat sous calcul recu");
 			userid = din.readInt();
 			idCalcul = din.readInt();
 			idUnderCalcul = din.readInt();
 			repSsCalcul = din.readDouble();
 			
-			System.out.println("userid : " + userid + " idCalcul : "+ idCalcul + " idUnderCalcul : "+ idUnderCalcul + " repSsCalcul : "+repSsCalcul );
+			System.out.println("Resultat du sous-calcul recu : \nId de l'utilisateur : " + userid + " Id du calcul : "+ idCalcul + " Id du sous-calcul : "+ idUnderCalcul + " Reponse du sous-calcul : "+repSsCalcul );
 			
 			CalculList.getInstance().addResUnderCalcul(idCalcul, idUnderCalcul, repSsCalcul);
 			
@@ -289,19 +288,15 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 		 * ==> non, retourner erreur
 		 */
 		try{
-			System.out.println("Avant calculdemand");
 			dout.writeUTF("calculdemand");
 			//String rep =  din.readUTF();
 			//System.out.println("Yes ?" + rep);
 			//if (rep.contentEquals("yes")){
-			System.out.println("Avant idCalc");
 			dout.writeInt(idCalc);	
-			System.out.println("Avant underCalcId");
 			dout.writeInt(underCalcId);
-			System.out.println("Avant calcul : " + calcul);
 			dout.writeUTF(calcul);
 			dout.flush();
-			System.out.println("Apres calcul");
+			System.out.println("Envoi d'un sous-calcul");
 
 				//return true
 			//}
@@ -321,7 +316,7 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 		 * ==> non, retourner erreur
 		 */
 		try{
-			System.out.println("Rescalcul envoy�");
+			System.out.println("Resultat du calcul envoye");
 			dout.writeUTF("ResCalcul");
 			String rep =  din.readUTF();
 			System.out.println("rep : "+rep);
@@ -329,7 +324,7 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 				dout.writeInt(idCalcul);
 				dout.writeDouble(res);
 				//return true 
-				System.out.println("Calcul envoyer " + res);
+				System.out.println("Resultat envoye : " + res);
 			}
 			else{
 				//return false

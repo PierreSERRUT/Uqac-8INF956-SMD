@@ -31,7 +31,7 @@ public class UnderCalcMobile extends UnderCalc {
 				break;
 			}
 		}
-		System.out.println("indice Limite: " + indiceLimit);
+		//System.out.println("indice Limite: " + indiceLimit);
 		for (int i = 0; i < indiceLimit; i++) {
 			if (((this.messRecu.charAt(i) > 47) && (this.messRecu.charAt(i) < 58)) || (this.messRecu.charAt(i) == '.'))
 					j++;
@@ -78,7 +78,7 @@ public class UnderCalcMobile extends UnderCalc {
 	}
 
 	public void AffMess() {
-		System.out.println("Message re�u :" + messRecu);
+		System.out.println("Message recu :" + messRecu);
 	}
 
 	public void AffVal() {

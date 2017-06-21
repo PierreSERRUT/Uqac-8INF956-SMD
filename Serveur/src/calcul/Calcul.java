@@ -99,7 +99,7 @@ public Calcul(int idClient, int idCalc, HandleCalcul hCalc, String calc) {				
 				indiceListVal++;
 			}
 		}
-		System.out.println("Ope");
+		//System.out.println("Ope");
 		// Matrice OPE
 		for (int i = 0; i < restePartVal; i++) {
 			for (int j = 0; j < (taillePartVal - 1); j++) {
@@ -157,7 +157,7 @@ public Calcul(int idClient, int idCalc, HandleCalcul hCalc, String calc) {				
 	public double calcResFinal() {
 		this.getUndRes();
 		this.res = this.listUndRes.get(0);
-		int m = this.listUndRes.size();		System.out.println("m = "+m);
+		int m = this.listUndRes.size();		//System.out.println("m = "+m);
 		for (int i = 1; i < m; i++) {
 			switch (matOpe[m][i - 1]) {
 			case '+':
@@ -171,14 +171,14 @@ public Calcul(int idClient, int idCalc, HandleCalcul hCalc, String calc) {				
 				break;
 			case '/':
 				if (matOpe[m][i] == 0)
-					System.out.println("Division par zero: division non effectu�");
+					System.out.println("Division par zero : division non effectue");
 				else
 					this.res *= this.listUndRes.get(i);
 				break;
 			default:
 				break;
 			}
-		}		System.out.println("res calc res final :" + res);
+		}		//System.out.println("res calc res final :" + res);
 		return res;		
 	}
 	public ArrayList<Double> getDataParties(int numParties) {
@@ -195,7 +195,7 @@ public Calcul(int idClient, int idCalc, HandleCalcul hCalc, String calc) {				
 		return ope;
 	}
 	public void affMat() {
-		System.out.println("Matrice des Valeurs:");
+		System.out.println("Matrice des Valeurs :");
 		for (int i = 0; i < matVal.length; i++) {
 			System.out.print("(");
 			for (int j = 0; j < matVal[i].length; j++)
@@ -203,7 +203,7 @@ public Calcul(int idClient, int idCalc, HandleCalcul hCalc, String calc) {				
 			System.out.println(")");
 		}
 		System.out.println();
-		System.out.println("Matrice des Operateurs::");
+		System.out.println("Matrice des Operateurs :");
 		for (int i = 0; i < matOpe.length; i++) {			System.out.print("(");
 			for (int j = 0; j < matOpe[i].length; j++)
 				System.out.print(matOpe[i][j] + " ");
@@ -211,19 +211,19 @@ public Calcul(int idClient, int idCalc, HandleCalcul hCalc, String calc) {				
 		}
 	}
 	public void affListeVal() {
-		System.out.println("Liste des valeurs: ");
+		System.out.println("Liste des valeurs : ");
 		for (int i = 0; i < listVal.size(); i++)
 			System.out.print(listVal.get(i) + " ");
 		System.out.println();
 	}
 	public void affListeOpe() {
-		System.out.println("Liste des operateurs: ");
+		System.out.println("Liste des operateurs : ");
 		for (int i = 0; i < listOpe.size(); i++)
 			System.out.print(listOpe.get(i) + " ");
 		System.out.println();
 	}
-	public void incrementAchievment(){		System.out.println("incr achv");
-		this.achievement ++;		System.out.println("achv : "+this.achievement);
+	public void incrementAchievment(){		//System.out.println("incr achv");
+		this.achievement ++;		//System.out.println("achv : "+this.achievement);
 		if(this.achievement >= this.listUnderCal.size()){
 			this.setRes(this.calcResFinal());
 		}

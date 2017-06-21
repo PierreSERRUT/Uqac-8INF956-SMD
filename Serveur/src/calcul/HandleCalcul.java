@@ -53,11 +53,11 @@ public class HandleCalcul implements Runnable {
 		calcul = this.calc.getUCalForm(idUnderCalc);
 		
 		int userid = this.calc.getUserIdFromUnderCalcId(idUnderCalc);
-		System.out.println("userID " + userid);
+		//System.out.println("userID " + userid);
 		Client client = this.calc.getClientFromUserId(userid);
 		
 		client.handleClient.sendSsCalcul(idCalcul, calcul, idUnderCalc);
-		System.out.println("Client " + client.getUserid());
+		//System.out.println("Client " + client.getUserid());
 		/*
 		 * Envoi: idUcalc, calc
 		 * calcul --> listUnderCalc --> getUserId --> listClient --> récupérer le client --> handleclient --> sendSsCalcul(calcul)
@@ -105,17 +105,17 @@ public class HandleCalcul implements Runnable {
 		fragCalcul();
 		CalculList.getInstance().addCalcul(this.calc);
 		for (UnderCalcServ underCalc : this.calc.getListUnderCal()) {
-			System.out.println("Test " + underCalc.idUnderCalc);
+			//System.out.println("Test " + underCalc.idUnderCalc);
 			envoiUnderCalc(calc.getIdCalcul(),underCalc.idUnderCalc);
 		}
-		System.out.println("Pb");
+		//System.out.println("Pb");
 		//recepUnderRes();
 		
 		while(!calc.getIsOver()){//On attend que le calcul soit finit
 		}
-		System.out.println("j'ai tous les sous calculs");
+		System.out.println("J'ai tous les resultats de mes sous-calculs");
 		resultFinal();
-		System.out.println("r�sultat final : "+ this.resultat);
+		System.out.println("Resultat final : " + this.resultat);
 		this.client.handleClient.sendResCalcul(this.calc.getIdCalcul(), this.resultat);
 		HandleDB.getInstance().addCalculOver(this.calc);
 	}
