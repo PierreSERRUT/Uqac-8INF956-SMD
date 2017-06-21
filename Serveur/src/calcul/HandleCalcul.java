@@ -53,9 +53,11 @@ public class HandleCalcul implements Runnable {
 		calcul = this.calc.getUCalForm(idUnderCalc);
 		
 		int userid = this.calc.getUserIdFromUnderCalcId(idUnderCalc);
+		System.out.println("userID " + userid);
 		Client client = this.calc.getClientFromUserId(userid);
-		client.handleClient.sendSsCalcul(calcul, idUnderCalc);
 		
+		client.handleClient.sendSsCalcul(calcul, idUnderCalc);
+		System.out.println("Client " + client.getUserid());
 		/*
 		 * Envoi: idUcalc, calc
 		 * calcul --> listUnderCalc --> getUserId --> listClient --> récupérer le client --> handleclient --> sendSsCalcul(calcul)
@@ -102,9 +104,11 @@ public class HandleCalcul implements Runnable {
 		//this.calc.AffListeOpe();
 		miseEnFormeDonnees();
 		fragCalcul();
-		for (int i = 0; i < this.choixNbUser; i++) {
-			envoiUnderCalc(i);
+		for (UnderCalcServ underCalc : this.calc.getListUnderCal()) {
+			System.out.println("Test " + underCalc.idUnderCalc);
+			envoiUnderCalc(underCalc.idUnderCalc);
 		}
+		System.out.println("Pb");
 		recepUnderRes();
 		resultFinal();
 		while(!calc.getIsOver()){//On attend que le calcul soit finit

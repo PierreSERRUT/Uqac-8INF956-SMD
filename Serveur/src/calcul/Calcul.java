@@ -94,7 +94,7 @@ public class Calcul {
 
 		int j = 0, indiceOpe = 0;
 		String tmp;
-		System.out.println(str);
+
 		for (int i = 0; i < str.length(); i++) {
 			if (((str.charAt(i) > 47) && (str.charAt(i) < 58)) || (str.charAt(i) == '.')) {
 				j++;
@@ -121,6 +121,10 @@ public class Calcul {
 		return uCalcForm;
 	}
 	
+	public ArrayList<UnderCalcServ> getListUnderCal() {
+		return listUnderCal;
+	}
+
 	public int getUCalcId (int indiceUCalc) {
 		return this.listUnderCal.get(indiceUCalc).getUCalcId();
 	}
@@ -130,8 +134,6 @@ public class Calcul {
 	}
 
 	public void decoupage() {
-		affListeVal();
-		
 		int taillePartVal = this.listVal.size() / this.nbParties;
 		int restePartVal = this.listVal.size() % this.nbParties;
 		// System.out.println("taille : " + taillePartVal);
@@ -143,33 +145,21 @@ public class Calcul {
 		int indiceListOpe = 0;
 
 		// Matrice Val
-		
-		/*if(restePartVal==0)
-		{
-			for (int i = restePartVal; i < this.nbParties; i++) {
-				for (int j = 0; j < taillePartVal; j++) {
-					this.matVal[i][j] = this.listVal.get(indiceListVal);
-					indiceListVal++;
-				}
+		for (int i = 0; i < restePartVal; i++) {
+			for (int j = 0; j < (taillePartVal + 1); j++) {
+				this.matVal[i][j] = this.listVal.get(indiceListVal);
+				indiceListVal++;
 			}
 		}
-		else{*/
-			for (int i = 0; i < restePartVal; i++) {
-				for (int j = 0; j < (taillePartVal + 1); j++) {
-					this.matVal[i][j] = this.listVal.get(indiceListVal);
-					indiceListVal++;
-				}
-			}
 
-			for (int i = restePartVal; i < this.nbParties; i++) {
-				for (int j = 0; j < taillePartVal; j++) {
-					this.matVal[i][j] = this.listVal.get(indiceListVal);
-					indiceListVal++;
-				}
+		for (int i = restePartVal; i < this.nbParties; i++) {
+			for (int j = 0; j < taillePartVal; j++) {
+				this.matVal[i][j] = this.listVal.get(indiceListVal);
+				indiceListVal++;
 			}
-		//}
-		
-	
+		}
+		System.out.println("Ope");
+
 		// Matrice OPE
 
 		for (int i = 0; i < restePartVal; i++) {
