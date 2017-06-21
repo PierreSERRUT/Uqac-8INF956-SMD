@@ -103,7 +103,7 @@ public class ComServ {
 	    Thread thRequest = new Thread(listenRequest);
 
 	    Runnable listenResult = new Runnable() {    	
-	    	Double result = -1.0;
+	    	double result = -1.0;
 	    	int idCalc = -1;
 	    	@Override
 	    	public void run() {
@@ -114,9 +114,9 @@ public class ComServ {
 	    			String message = din.readUTF();
 	    			if(message.contentEquals("ResCalcul")){
 	    				dout.writeUTF("dispo");
-	    				idCalc = din.read();
+	    				idCalc = din.readInt();
 		    			result = din.readDouble();
-		    			System.out.println("result = "+result);
+		    			System.out.println("result = " + result);
 	    			}
 	    			//System.out.println(din.readUTF());
 	    			//System.out.println(scan.next());
@@ -144,13 +144,13 @@ public class ComServ {
 			break;
 			case(2):
 				sendConnexion(user.id,user.password);
-			thRequest.start();
-			ping.scheduleAtFixedRate(pingDispo, new Date(), delay);	
+				thRequest.start();
+				ping.scheduleAtFixedRate(pingDispo, new Date(), delay);	
 			break;
 			case(3):
 				String calcul = "1+2+3+4+5+6";
-			sendReqCalcul(user.id, calcul);
-			thResult.start();
+				sendReqCalcul(user.id, calcul);
+				thResult.start();
 			break;
 			case(4):
 			ping.cancel();

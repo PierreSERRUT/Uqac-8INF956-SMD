@@ -203,7 +203,8 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 
 			Client client = ClientList.getInstance().findClient(userid);
 			
-			HandleCalcul handleCalcul = new HandleCalcul(client, calcul);
+			sendResCalcul(0, 12.0);
+			//HandleCalcul handleCalcul = new HandleCalcul(client, calcul);
 			// attention au Garbage collector, du plus le handle va se cr�e et ne rien faire !
 			
 		} catch (IOException e){
@@ -299,7 +300,7 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 		}
 	}
 	
-	public void sendResCalcul(int idCalcul, Double res){
+	public void sendResCalcul(int idCalcul, double res){
 		//Envoyer le ss calcul
 		/*
 		 * demander si possible calcul
@@ -313,6 +314,7 @@ public class HandleClient extends Thread {//manque boucle contrôle run, attente
 				dout.writeInt(idCalcul);
 				dout.writeDouble(res);
 				//return true 
+				System.out.println("Calcul envoyer " + res);
 			}
 			else{
 				//return false

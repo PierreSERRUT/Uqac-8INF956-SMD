@@ -43,7 +43,7 @@ public class DataBase {
 			if(user.pseudo == pseudo || user.mail == mail){
 				return true;
 			}
-		}		
+		}
 		return false;
 	}
 	
